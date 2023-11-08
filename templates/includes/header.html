@@ -1,0 +1,1050 @@
+{% load static %}
+{% block header %}
+
+<!-- Quick view -->
+<div class="modal fade custom-modal quickview-modal" id="quickViewModal" tabindex="-1"
+    aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                        <div class="detail-gallery">
+                            <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                            <!-- MAIN SLIDES -->
+                            <div class="product-image-slider">
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-2.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-1.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-3.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-4.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-5.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-6.jpg' %}" alt="product image">
+                                </figure>
+                                <figure class="border-radius-10">
+                                    <img src="{% static 'imgs/shop/product-16-7.jpg' %}" alt="product image">
+                                </figure>
+                            </div>
+
+                            <!-- THUMBNAILS -->
+                            <div class="slider-nav-thumbnails">
+                                <div><img src="{% static 'imgs/shop/thumbnail-3.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-4.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-5.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-6.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-7.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-8.jpg' %}" alt="product image"></div>
+                                <div><img src="{% static 'imgs/shop/thumbnail-9.jpg' %}" alt="product image"></div>
+                            </div>
+
+                        </div>
+                        <!-- End Gallery -->
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="detail-info pr-30 pl-30">
+                            <span class="stock-status out-stock">
+                                Sale Off
+                            </span>
+                            <h3 class="title-detail"><a href="{% static 'shop-product-right.html' %}"
+                                    class="text-heading">Seeds of Change Organic Quinoa, Brown</a></h3>
+                            <div class="product-detail-rating">
+                                <div class="product-rate-cover text-end">
+                                    <div class="product-rate d-inline-block">
+                                        <div class="product-rating" style="width:90%"></div>
+                                    </div>
+                                    <span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="clearfix product-price-cover">
+                                <div class="product-price primary-color float-left">
+                                    <span class="current-price text-brand">$38</span>
+                                    <span>
+                                        <span class="save-price font-md color3 ml-15">26% Off</span>
+                                        <span class="old-price font-md ml-15">$52</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="detail-extralink mb-30">
+                                <div class="detail-qty border radius">
+                                    <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                    <span class="qty-val">1</span>
+                                    <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                </div>
+                                <div class="product-extra-link2">
+                                    <button type="submit" class="button button-add-to-cart"><i
+                                            class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="font-xs">
+                                <ul>
+                                    <li class="mb-5">Vendor: <span class="text-brand">Nest</span></li>
+                                    <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2021</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<header class="header-area header-style-1 header-height-2">
+    <div class="mobile-promotion"><span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3
+                days</strong> left</span></div>
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info">
+                        <ul>
+                            <li>About Us</li>
+                            <li>>My Account</li>
+                            <li>>Wishlist</li>
+                            <li>Order Tracking</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-4">
+                    <div class="text-center">
+                        <div id="news-flash" class="d-inline-block">
+                            <ul>
+                                <li>Hassle free way of Coparing Products!</li>
+                                <li>Puregold, Waltermart, Metro MArket! Market!</li>
+                                <li>Discover Discounts and Prices from Different Supermarkets!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info header-info-right">
+                        <ul>
+                            <li>Any Questions? Email Us at <strong class="text-brand"> email@gmail.com</strong></li>
+                            <li>
+                                <a class="language-dropdown-active" href="#">English <i
+                                        class="fi-rs-angle-small-down"></i></a>
+                                <ul class="language-dropdown">
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-fr.png' %}"
+                                                alt="">Français</a></li>
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-dt.png' %}"
+                                                alt="">Deutsch</a></li>
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-ru.png' %}"
+                                                alt="">Pусский</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="language-dropdown-active" href="#">USD <i
+                                        class="fi-rs-angle-small-down"></i></a>
+                                <ul class="language-dropdown">
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-fr.png' %}"
+                                                alt="">INR</a></li>
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-dt.png' %}"
+                                                alt="">MBP</a></li>
+                                    <li><a href="#"><img src="{% static 'imgs/theme/flags/flag-ru.png' %}" alt="">EU</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo-width-1">
+                    <a href="{% url 'home:home' %}"><img src="{% static 'imgs/theme/logovv.png' %}" alt="logo"
+                            style="width: 75px; height: 90px; margin-right: 30px;"></a>
+                </div>
+                <div class="header-right">
+                    <div class="search-style-2">
+                        <form action="#">
+                            <select class="select-active">
+                                <option>All Categories</option>
+                                <option>Canned Goods</option>
+                                <option>Milk</option>
+                                <option>Coffee</option>
+                                <option>Bread</option>
+                                <option>Candles</option>
+                                <option>Water/Mineral</option>
+                                <option>Vinegar</option>
+                                <option>Soy Sauce</option>
+                                <option>Fish Sauce </option>
+                                <option>Noodles</option>
+                                <option>Laundry Aids</option>
+                            </select>
+                            <input type="text" placeholder="Search for items...">
+                        </form>
+                    </div>
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <div class="search-location">
+                                <form action="#">
+                                    <select class="select-active">
+                                        <option>Your Location</option>
+                                        <option>Alabama</option>
+                                        <option>Alaska</option>
+                                        <option>Arizona</option>
+                                        <option>Delaware</option>
+                                        <option>Florida</option>
+                                        <option>Georgia</option>
+                                        <option>Hawaii</option>
+                                        <option>Indiana</option>
+                                        <option>Maryland</option>
+                                        <option>Nevada</option>
+                                        <option>New Jersey</option>
+                                        <option>New Mexico</option>
+                                        <option>New York</option>
+                                    </select>
+                                </form>
+                            </div>
+
+                            <div class="header-action-icon-2">
+                                <a href="#">
+                                    <img class="svgInject" alt="Nest"
+                                        src="{% static 'imgs/theme/icons/icon-user.svg' %}">
+                                </a>
+                                <span class="lable ml-0">Account</span>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a href="#">
+                                    <img class="svgInject" alt="Nest"
+                                        src="{% static 'imgs/theme/icons/icon-heart.svg' %}">
+                                    <span class="pro-count blue">6</span>
+                                </a>
+                                <span class="lable">Wishlist</span>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="#">
+                                    <img alt="Nest" src="{% static 'imgs/theme/icons/icon-cart.svg' %}">
+                                    <span class="pro-count blue">2</span>
+                                </a>
+                                <span class="lable">Cart</span>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <ul>
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="#"><img alt="Nest"
+                                                        src="{% static 'imgs/shop/thumbnail-3.jpg' %}"></a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Daisy Casual Bag</a></h4>
+                                                <h4><span>1 × </span>$800.00</h4>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="#"><img alt="Nest"
+                                                        src="{% static 'imgs/shop/thumbnail-2.jpg' %}"></a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Corduroy Shirts</a></h4>
+                                                <h4><span>1 × </span>$3200.00</h4>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-total">
+                                            <h4>Total <span>$4000.00</span></h4>
+                                        </div>
+                                        <div class="shopping-cart-button">
+                                            <a href="#" class="outline">View cart</a>
+                                            <a href="#">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STICKY -->
+    <div class="header-bottom header-bottom-bg-color sticky-bar">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative">
+                <div class="logo logo-width-1 d-block d-lg-none">
+                    <a href="{% url 'home:home' %}"><img src="{% static 'imgs/theme/logovv.png' %}"
+                            style="width: 10px; height: 150px" alt="logo" ;></a>
+                </div>
+
+                <div class="header-nav d-none d-lg-flex">
+
+                    <div class="main-categori-wrap d-none d-lg-block">
+                        <a class="categories-button-active " href="#">
+                            <span class="fi-rs-apps"></span> <span class="et">fdsahfbj</span> All Categories
+                            <i class="fi-rs-angle-down"></i>
+                        </a>
+                        <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                            <div class="d-flex categori-dropdown-inner">
+                                <ul>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/cannedfood.png' %}"
+                                                alt="">Canned Goods</a></li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/milk.png' %}" alt="">Milk</a>
+                                    </li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/coffee.png' %}"
+                                                alt="">Coffee</a></li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/bread.png' %}"
+                                                alt="">Bread</a></li>
+                                </ul>
+                                <ul class="end">
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/water.png' %}"
+                                                alt="">Water/Mineral</a></li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/vinegar.png' %}"
+                                                alt="">Vinegar</a></li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/soysauce.png' %}" alt="">Soy
+                                            Sauce</a></li>
+                                    <li><a href="#"> <img src="{% static 'imgs/theme/icons/fishsauce.png' %}"
+                                                alt="">Fish Sauce</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="more_slide_open" style="display: none;">
+                                <div class="d-flex categori-dropdown-inner">
+                                    <div class="d-flex categori-dropdown-inner">
+
+                                        <ul>
+                                            <li><a href="#"> <img src="{% static 'imgs/theme/icons/candles.png' %}"
+                                                        alt="">Candles</a></li>
+                                            <li><a href="#"> <img src="{% static 'imgs/theme/icons/noodle.png' %}"
+                                                        alt="">Noodles</a></li>
+                                        </ul>
+                                        <ul class="end">
+                                            <li><a href="#"> <img src="{% static 'imgs/theme/icons/laundry.png' %}"
+                                                        alt="">Laundry Aids</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="more_categories"> <span class="icon"></span> <span class="heading-sm-1">Show
+                                    more...</span></div>
+                        </div>
+                    </div>
+                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                        <nav>
+                            <ul>
+                                <li class="hot-deals"><img src="{% static 'imgs/theme/icons/icon-hot.svg' %}"
+                                        alt="hot deals"><a href="{% url 'home:discounts' %}">Hot Deals</a></li>
+
+                                <li><a href="{% url 'home:home' %}">Home </i></a></li>
+                                <li>
+                                    <a href="#">About</a>
+                                </li>
+                                <li><a href="#">Supermarket <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="sub-menu">
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}">Shop
+                                                Metro</a></li>
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}">Puregold</a>
+                                        </li>
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}">Walter
+                                                Mart</a></li>
+
+                                        <li><a href="#">Single Product <i class="fi-rs-angle-right"></i></a>
+                                            <ul class="level-menu">
+                                                <li><a href="#">Product – Right Sidebar</a></li>
+                                                <li><a href="#">Product – Left Sidebar</a></li>
+                                                <li><a href="#">Product – No sidebar</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li class="position-static"><a href="#">Mega menu <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="mega-menu">
+                                        <li class="sub-mega-menu sub-mega-menu-width-22">
+                                            <a class="menu-title" href="#">Fruit & Vegetables</a>
+                                            <ul>
+                                                <li><a href="#">Meat & Poultry</a></li>
+                                                <li><a href="#">Fresh Vegetables</a></li>
+                                                <li><a href="#">Herbs & Seasonings</a></li>
+                                                <li><a href="#">Cuts & Sprouts</a></li>
+                                                <li><a href="#">Exotic Fruits & Veggies</a></li>
+                                                <li><a href="#">Packaged Produce</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-mega-menu sub-mega-menu-width-22">
+                                            <a class="menu-title" href="#">Breakfast & Dairy</a>
+                                            <ul>
+                                                <li><a href="#">Milk & Flavoured Milk</a></li>
+                                                <li><a href="#">Butter and Margarine</a></li>
+                                                <li><a href="s#">Eggs Substitutes</a></li>
+                                                <li><a href="#">Marmalades</a></li>
+                                                <li><a href="#">Sour Cream</a></li>
+                                                <li><a href="#">Cheese</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-mega-menu sub-mega-menu-width-22">
+                                            <a class="menu-title" href="#">Meat & Seafood</a>
+                                            <ul>
+                                                <li><a href="#">Breakfast Sausage</a></li>
+                                                <li><a href="#">Dinner Sausage</a></li>
+                                                <li><a href="#">Chicken</a></li>
+                                                <li><a href="#">Sliced Deli Meat</a></li>
+                                                <li><a href="#">Wild Caught Fillets</a></li>
+                                                <li><a href="#">Crab and Shellfish</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-mega-menu sub-mega-menu-width-34">
+                                            <div class="menu-banner-wrap">
+                                                <a href="#"><img src="assets/imgs/banner/banner-menu.png"
+                                                        alt="Nest"></a>
+                                                <div class="menu-banner-content">
+                                                    <h4>Hot deals</h4>
+                                                    <h3>Don't miss<br> Trending</h3>
+                                                    <div class="menu-banner-price">
+                                                        <span class="new-price text-success">Save to 50%</span>
+                                                    </div>
+                                                    <div class="menu-banner-btn">
+                                                        <a href="shop-product-right.html">Shop now</a>
+                                                    </div>
+                                                </div>
+                                                <div class="menu-banner-discount">
+                                                    <h3>
+                                                        <span>25%</span>
+                                                        off
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="blog-category-grid.html">Blog <i class="fi-rs-angle-down"></i></a>
+
+                                    <ul class="sub-menu">
+                                        <li><a href="#">Blog Category Grid</a></li>
+                                        <li><a href="#">Blog Category List</a></li>
+                                        <li><a href="#">Blog Category Big</a></li>
+                                        <li><a href="#">Blog Category Wide</a></li>
+                                        <li><a href="#">Single Post <i class="fi-rs-angle-right"></i></a>
+                                            <ul class="level-menu level-menu-modify">
+                                                <li><a href="#">Left Sidebar</a></li>
+                                                <li><a href="#">Right Sidebar</a></li>
+                                                <li><a href="#">No Sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Pages <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="">About Us</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="#">My Account</a></li>
+                                        <li><a href="#">Login</a></li>
+                                        <li><a href="#">Register</a></li>
+                                        <li><a href="#">Purchase Guide</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Terms of Service</a></li>
+                                        <li><a href="#">404 Page</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href=#>Contact</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'charts:chart1' %}">Charts</a></h2>
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="main-categori-wrap d-none d-lg-block">
+                <a class="categories-button-active " href="#">
+                    <img class="svgInject" alt="Nest" src="{% static 'imgs/theme/icons/icon-user-white.svg' %}"
+                        style="margin-right: 8%;">
+                    Account
+                    <i class="fi-rs-angle-down"></i>
+                </a>
+                <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                    <ul class="dropdown">
+                        <li><a href="{% url 'auth_system:profile' %}">Profile</li>
+                        <li><a href="#">Upvotes</a></li>
+                        <li><a href="#">Downvotes</a></li>
+                        <li><a href="#">Favorites</a></li>
+                        <hr>
+                        <li><a href="{% url 'auth_system:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'auth_system:login-page' %}">Login</a>
+            <a class="nav-item nav-link" href="{% url 'auth_system:register-page' %}">Register</a>
+            {% endif %}
+
+
+
+
+            <div class="header-action-icon-2 d-block d-lg-none">
+                <div class="burger-icon burger-icon-white">
+                    <span class="burger-icon-top"></span>
+                    <span class="burger-icon-mid"></span>
+                    <span class="burger-icon-bottom"></span>
+                </div>
+            </div>
+            <div class="header-action-right d-block d-lg-none">
+                <div class="header-action-2">
+                    <div class="header-action-icon-2">
+                        <a href="#">
+                            <img alt="Nest" src="{% static 'imgs/theme/icons/icon-heart.svg' %}">
+                            <span class="pro-count white">4</span>
+                        </a>
+                    </div>
+                    <div class="header-action-icon-2">
+                        <a class="mini-cart-icon" href="#">
+                            <img alt="Nest" src="{% static 'imgs/theme/icons/icon-cart.svg' %}">
+                            <span class="pro-count white">2</span>
+                        </a>
+                        <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                            <ul>
+                                <li>
+                                    <div class="shopping-cart-img">
+                                        <a href="#">
+                                            <img alt="Nest" src="{% static 'imgs/shop/thumbnail-3.jpg' %}">
+                                        </a>
+                                    </div>
+                                    <div class="shopping-cart-title">
+                                        <h4><a href="#">Plain Striola Shirts</a></h4>
+                                        <h3><span>1 × </span>$800.00</h3>
+                                    </div>
+                                    <div class="shopping-cart-delete">
+                                        <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="shopping-cart-img">
+                                        <a href="#">
+                                            <img alt="Nest" src="{% static 'imgs/shop/thumbnail-4.jpg' %}">
+                                        </a>
+                                    </div>
+                                    <div class="shopping-cart-title">
+                                        <h4><a href="#">Macbook Pro 2022</a></h4>
+                                        <h3><span>1 × </span>$3500.00</h3>
+                                    </div>
+                                    <div class="shopping-cart-delete">
+                                        <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="shopping-cart-footer">
+                                <div class="shopping-cart-total">
+                                    <h4>Total <span>$383.00</span></h4>
+                                </div>
+                                <div class="shopping-cart-button">
+                                    <a href="#">View cart</a>
+                                    <a href="#">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</header>
+<div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-top">
+            <div class="mobile-header-logo">
+                <a href="#">
+                    <img src="{% static 'imgs/theme/logo.svg' %}" alt="logo">
+                </a>
+            </div>
+            <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                <button class="close-style search-close">
+                    <i class="icon-top"></i>
+                    <i class="icon-bottom"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-header-content-area">
+            <div class="mobile-search search-style-3 mobile-header-border">
+                <form action="#">
+                    <input type="text" placeholder="Search for items…">
+                    <button type="submit">
+                        <i class="fi-rs-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="mobile-menu-wrap mobile-header-border">
+                <!-- mobile menu start -->
+                <nav>
+                    <ul class="mobile-menu font-heading">
+                        <li class="menu-item-has-children">
+                            <a href="#">Home</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Home 1</a></li>
+                                <li><a href="#">Home 2</a></li>
+                                <li><a href="#">Home 3</a></li>
+                                <li><a href="#">Home 4</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-item-has-children">
+                            <a href="#">shop</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Shop Grid – Right Sidebar</a></li>
+                                <li><a href="#">Shop Grid – Left Sidebar</a></li>
+                                <li><a href="#">Shop List – Right Sidebar</a></li>
+                                <li><a href="#">Shop List – Left Sidebar</a></li>
+                                <li><a href="#">Shop - Wide</a></li>
+                                <li class="menu-item-has-children"><a href="#">Single Product</a>
+                                </li>
+                                <ul class="dropdown">
+                                    <li><a href="#">Product – Right Sidebar</a></li>
+                                    <li><a href="#">Product – Left Sidebar</a></li>
+                                    <li><a href="#">Product – No sidebar</a></li>
+                                </ul>
+                            </ul>
+                        </li>
+                        <li><a href="#">Shop – Filter</a></li>
+                        <li><a href="#">Shop – Wishlist</a></li>
+                        <li><a href="#">Shop – Cart</a></li>
+                        <li><a href="#">Shop – Checkout</a></li>
+                        <li><a href="#">Shop – Compare</a></li>
+                    </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Mega menu</a>
+                        <ul class="dropdown">
+                            <li class="menu-item-has-children"><a href="#">Women's Fashion</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Dresses</a></li>
+                                    <li><a href="#">Blouses & Shirts</a></li>
+                                    <li><a href="#">Hoodies & Sweatshirts</a></li>
+                                    <li><a href="#">Women's Sets</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><a href="#">Men's Fashion</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Jackets</a></li>
+                                    <li><a href="#">Casual Faux Leather</a></li>
+                                    <li><a href="#">Genuine Leather</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><a href="#">Technology</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Gaming Laptops</a></li>
+                                    <li><a href="#">Ultraslim Laptops</a></li>
+                                    <li><a href="#">Tablets</a></li>
+                                    <li><a href="#">Laptop Accessories</a></li>
+                                    <li><a href="#">Tablet Accessories</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Blog</a>
+                        <ul class="dropdown">
+                            <li><a href="#">Blog Category Grid</a></li>
+                            <li><a href="#">Blog Category List</a></li>
+                            <li><a href="#">Blog Category Big</a></li>
+                            <li><a href="#">Blog Category Wide</a></li>
+                            <li class="menu-item-has-children"><a href="#">Single Product Layout</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Left Sidebar</a></li>
+                                    <li><a href="#">Right Sidebar</a></li>
+                                    <li><a href="#">No Sidebar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Pages</a>
+                        <ul class="dropdown">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#">Login</a></li>
+                            <li><a href="#">Register</a></li>
+                            <li><a href="#">Purchase Guide</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">404 Page</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children"><a href="#">Language</a>
+                        <ul class="dropdown">
+                            <li><a href="#">English</a></li>
+                            <li><a href="#">French</a></li>
+                            <li><a href="#">German</a></li>
+                            <li><a href="#">Spanish</a></li>
+                        </ul>
+                    </li>
+                    </ul>
+                </nav>
+                <!-- mobile menu end -->
+            </div>
+            <div class="mobile-header-info-wrap">
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-marker"></i> Our location</a>
+                </div>
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-user"></i>Log In / Sign Up</a>
+                </div>
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789</a>
+                </div>
+            </div>
+            <div class="mobile-social-icon mb-50">
+                <h6 class="mb-15">Follow Us</h6>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-facebook-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-twitter-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-instagram-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-pinterest-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-youtube-white.svg' %}" alt=""></a>
+            </div>
+            <div class="site-copyright"> Copyright 2021 © Nest. All rights reserved. Powered by AliThemes.</div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2jnPx44CEvp5JTozVnNthaAQ0mOXzhzc&libraries=places&callback=initMap" async defer></script> -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2jnPx44CEvp5JTozVnNthaAQ0mOXzhzc&libraries=geometry,places&callback=initMap"
+        async defer>
+    </script>
+
+    <script>
+        var supermarket = "{{ product.supermarket }}"; // Assuming you have the supermarket name in a JavaScript variable.
+        var staticBaseUrl = "{% static '' %}"; // Get the base URL for static files in Django.
+
+        // Get the image element by its ID.
+        var logoImage = document.getElementById("supermarket-logo");
+
+        // Set the image source based on the value of 'supermarket'.
+        if (supermarket === 'ShopMetro') {
+            logoImage.src = staticBaseUrl + "/icons/shopmetro.png";
+        } else if (supermarket === 'Puregold') {
+            logoImage.src = staticBaseUrl + "icons/puregold.png";
+        } else if (supermarket === 'Waltermart') {
+            logoImage.src = staticBaseUrl + "icons/waltermart.png";
+        } else {
+            // Handle the case where 'supermarket' is not one of the expected values.
+            console.error("Invalid supermarket name: " + supermarket);
+        }
+    </script>
+
+    <script>
+        var map;
+        var infowindow;
+
+        function getPlaceDetails(place) {
+            const userLatLng = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng());
+            const placeLatLng = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, placeLatLng);
+
+            var contentString = '<div style="width:500px;height:500px; display: flex; flex-direction: column;">' +
+                '<strong style="font-size: 24px; color: #8DC63F;">' + place.name + '</strong><br>' +
+                '<strong>Distance : ' + Math.round(distance) + ' Metres </strong><br>'; // Added a line to display distance from current location
+            if (place.photos) {
+                var firstPhotoUrl = place.photos[0].getUrl();
+                contentString += '<img src="' + firstPhotoUrl + '" alt="Place photo" style="max-width:100%;height:auto; border-radius: 10px;"><br>';
+            } else {
+                contentString += 'No photos available<br>';
+            }
+
+            contentString +=
+                '<strong style="font-weight: bold;">Address:</strong> ' + place.formatted_address + '<br>' +
+                '<strong style="font-weight: bold;">Business Status:</strong> ' + place.business_status + '<br>' +
+                '<strong style="font-weight: bold;">Rating:</strong> ' + place.rating + '<br>' +
+                '<strong style="font-weight: bold;">User Ratings:</strong> ' + place.user_ratings_total + '<br>';
+
+            var formattedWeekdays = formatWeekdayText(place.opening_hours);
+            contentString += '<div><strong style="font-weight: bold;">Hours:</strong>';
+            contentString += '<br>' + formattedWeekdays.join('<br>') + '</div>';
+
+            contentString += '</div>';
+
+            return contentString;
+        }
+
+        function formatWeekdayText(openingHours) {
+            var weekdays = openingHours.weekday_text;
+            var formattedWeekdays = [];
+
+            // Extract the day and time from the weekday_text
+            for (var i = 0; i < weekdays.length; i++) {
+                var parts = weekdays[i].split(' ');
+                var day = parts[0];
+                var timeRange = parts.slice(1).join(' ');
+
+                // Format time to include AM and PM
+                var formattedTime = formatTime(timeRange);
+
+                formattedWeekdays.push(day + ' ' + formattedTime);
+            }
+
+            // Move Sunday to the end
+            var sunday = formattedWeekdays.shift();
+            formattedWeekdays.push(sunday);
+
+            return formattedWeekdays;
+        }
+
+        // Function to format time with AM and PM
+        function formatTime(rawTime) {
+            var [start, end] = rawTime.split('–').map(s => s.trim());
+            var [startHours, startMinutes] = start.split(':').map(Number);
+            var [endHours, endMinutes] = end.split(':').map(Number);
+            // Check for NaN values and set them to 0
+            if (isNaN(startHours) || isNaN(startMinutes) || isNaN(endHours) || isNaN(endMinutes)) {
+                startHours = 0;
+                startMinutes = 0;
+                endHours = 0;
+                endMinutes = 0;
+            }
+            var startAMPM = startHours >= 12 ? 'PM' : 'AM';
+            startHours = startHours % 12;
+            startHours = startHours ? startHours : 12; // Handle midnight (0:00 AM)
+            startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes;
+
+            var endAMPM = endHours >= 12 ? 'PM' : 'AM';
+            endHours = endHours % 12;
+            endHours = endHours ? endHours : 12; // Handle midnight (0:00 AM)
+            endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes;
+
+            return startHours + ':' + startMinutes + ' ' + startAMPM + ' – ' + endHours + ':' + endMinutes + ' ' + endAMPM;
+        }
+
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (geoPosition) {
+                    var { latitude, longitude } = geoPosition.coords;
+
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: latitude, lng: longitude },
+                        zoom: 15
+                    });
+
+                    var markerPosition = { lat: latitude, lng: longitude };
+                    var marker = new google.maps.Marker({
+                        position: markerPosition,
+                        map: map,
+                        title: 'Your location'
+                    });
+
+                    infowindow = new google.maps.InfoWindow();
+                    var service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch({
+                        location: markerPosition,
+                        radius: 5000,
+                        type: ['supermarket']  // search for all supermarkets
+                    }, processResults);
+                }, function () {
+                    handleLocationError(true, infowindow, map.getCenter());
+                },
+                    {
+                        enableHighAccuracy: true
+                    }
+                );
+            } else {
+                handleLocationError(false, infowindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infowindow, pos) {
+            infowindow.setPosition(pos);
+            infowindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infowindow.open(map);
+        }
+
+        function processResults(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    var placeNameInLowerCase = results[i].name.toLowerCase();
+                    if (placeNameInLowerCase.includes('puregold') ||
+                        placeNameInLowerCase.includes('waltermart') ||
+                        placeNameInLowerCase.includes('metro market! market!')) {
+                        createMarker(results[i]);
+                    }
+                }
+            }
+        }
+        function createMarker(placeInfo) {
+            var icon;
+            if (placeInfo.name.toLowerCase().includes('puregold')) {
+                icon = "{% static 'icons/P.png' %}";
+            } else if (placeInfo.name.toLowerCase().includes('waltermart')) {
+                icon = "{% static 'icons/W.png' %}";
+            } else if (placeInfo.name.toLowerCase().includes('metro market! market!')) {
+                icon = "{% static 'icons/M.png' %}";
+            }
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: placeInfo.geometry.location,
+                icon: icon
+            });
+
+            var service = new google.maps.places.PlacesService(map);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                service.getDetails({ placeId: placeInfo.place_id }, function (place, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        infowindow.setContent(getPlaceDetails(place)); // Remove formattedWeekdays
+                        infowindow.open(map, marker);
+                    }
+                });
+            });
+        }
+
+    </script>
+    <script>
+        // Function to open the location modal
+        function openLocationModal() {
+            var modal = new bootstrap.Modal(document.getElementById("location-modal"));
+            modal.show();
+            var backdrops = document.getElementsByClassName('modal-backdrop');
+            for (var i = 0; i < backdrops.length; i++) {
+                backdrops[i].remove();
+            }
+            // Initialize the map (You can put your map initialization code here)
+            initMap();
+        }
+
+        // Function to close the location modal
+        function closeLocationModal() {
+            var modal = new bootstrap.Modal(document.getElementById("location-modal"));
+            modal.hide();
+            // Remove any existing modal-backdrop elements
+            var backdrops = document.getElementsByClassName('modal-backdrop');
+            for (var i = 0; i < backdrops.length; i++) {
+                backdrops[i].remove();
+            }
+        }
+
+        // Listen for button click to open the location modal
+        var showLocationButton = document.getElementById("show-location-button");
+        showLocationButton.addEventListener("click", openLocationModal);
+
+    </script>
+
+    <script>
+        // Function to open the location modal
+        function openLocationModal2() {
+            var modal = new bootstrap.Modal(document.getElementById("location-modal2"));
+            modal.show();
+            var backdrops = document.getElementsByClassName('modal-backdrop');
+            for (var i = 0; i < backdrops.length; i++) {
+                backdrops[i].remove();
+            }
+            // Initialize the map (You can put your map initialization code here)
+            initMap();
+        }
+
+        // Function to close the location modal
+        function closeLocationModal2() {
+            var modal = new bootstrap.Modal(document.getElementById("location-modal2"));
+            modal.hide();
+            // Remove any existing modal-backdrop elements
+            var backdrops = document.getElementsByClassName('modal-backdrop');
+            for (var i = 0; i < backdrops.length; i++) {
+                backdrops[i].remove();
+            } 
+        }
+
+        // Listen for button click to open the location modal
+        var showLocationButton = document.getElementById("show-location-button2");
+        showLocationButton.addEventListener("click", openLocationModal2);
+
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle search form submission
+            $('.form-inline').on('submit', function (event) {
+                event.preventDefault();
+
+                var searchQuery = $('#search-bar').val().trim();
+
+                if (searchQuery) {
+                    // Send an AJAX request to the search view
+                    $.get('{% url "home:search_results" %}', { search_query: searchQuery }, function (data) {
+                        var searchResults = data.search_results;
+
+                        // Display search results in the results container
+                        var resultsContainer = $('#search-results');
+                        resultsContainer.empty();
+
+                        if (searchResults.length > 0) {
+                            searchResults.forEach(function (product) {
+                                var productLink = $('<a>')
+                                    .attr('href', '/product_detail/' + product.id)
+                                    .text(product.title);
+                                var listItem = $('<li>').append(productLink);
+                                resultsContainer.append(listItem);
+                            });
+                        } else {
+                            resultsContainer.append('<li>No matching products found.</li>');
+                        }
+                    });
+                } else {
+                    // Clear search results when the search input is empty
+                    $('#search-results').empty();
+                }
+            });
+        });
+    </script>
+
+    
+
+<script src="{% static 'js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/plugins/slick.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.syotimer.min.js' %}"></script>
+<script src="{% static 'js/plugins/wow.js' %}"></script>
+<script src="{% static 'js/plugins/jquery-ui.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'js/plugins/magnific-popup.js' %}"></script>
+<script src="{% static 'js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'js/plugins/waypoints.js' %}"></script>
+<script src="{% static 'js/plugins/counterup.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'js/plugins/images-loaded.js' %}"></script>
+<script src="{% static 'js/plugins/isotope.js' %}"></script>
+<script src="{% static 'js/plugins/scrollup.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.vticker-min.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.theia.sticky.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.elevatezoom.js' %}"></script>
+
+<!-- Template JS -->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/shop.js' %}"></script>
+
+
+{% endblock %}

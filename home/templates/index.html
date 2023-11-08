@@ -1,0 +1,1293 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+<main class="main">
+    <!-- Welcome back message after login -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            <center>{{ message }}</center>
+        </div>
+        {% endfor %}
+    </div>    
+    <script>
+        // Automatically close Bootstrap alert messages after 5 seconds
+        setTimeout(function() {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.transition = 'opacity 1s ease';
+                alert.style.opacity = 0;
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 1000); // Delay before hiding the alert after the fade out animation
+            });
+        }, 5000); // 5000 milliseconds (5 seconds)
+    </script>
+    {% endif %} 
+    <!-- End message -->
+
+    <!-- HOMEPAGE -->
+    <div class="container mb-30">
+        <div class="row flex-row-reverse">
+            <div class="col-lg-4-5">
+                <!-- Hero -->
+                <section class="home-slider position-relative mb-30">
+                    <div class="home-slide-cover mt-30">
+                        <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({% static '/imgs/slider/slider-1.png' %});">
+                                <div class="slider-content">
+                                    <h1 class="display-2 mb-40">Don’t miss amazing<br> grocery deals</h1>
+                                    <p class="mb-65">Choose products across <br><br>different supermarkets!</p>
+                                </div>
+                            </div>
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({% static '/imgs/slider/slider-2.png' %});">
+                                <div class="slider-content">
+                                    <h1 class="display-2 mb-40">Compare prices and<br> get Big discount</h1>
+                                    <p class="mb-65">Select across different categories!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-arrow hero-slider-1-arrow"></div>
+                    </div>
+                </section>
+                <!--End hero-->
+
+                <!-- Product by category section -->
+                <section class="product-tabs section-padding position-relative wow fadeIn animated">
+                    <div class="section-title style-2">
+                        <h3>Products by Category</h3>
+                        <ul class="nav nav-tabs links" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab"
+                                    data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one"
+                                    aria-selected="true">Canned Goods</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two"
+                                    type="button" role="tab" aria-controls="tab-two"
+                                    aria-selected="false">Water</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab"
+                                    data-bs-target="#tab-three" type="button" role="tab" aria-controls="tab-three"
+                                    aria-selected="false">Milk</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-four" data-bs-toggle="tab"
+                                    data-bs-target="#tab-four" type="button" role="tab" aria-controls="tab-four"
+                                    aria-selected="false">Coffee</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-five" data-bs-toggle="tab"
+                                    data-bs-target="#tab-five" type="button" role="tab" aria-controls="tab-five"
+                                    aria-selected="false">Noodles</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-six" data-bs-toggle="tab" data-bs-target="#tab-six"
+                                    type="button" role="tab" aria-controls="tab-six" aria-selected="false">Laundry
+                                    Aids</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-seven" data-bs-toggle="tab"
+                                    data-bs-target="#tab-seven" type="button" role="tab" aria-controls="tab-seven"
+                                    aria-selected="false">Bread</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--End nav-tabs-->
+
+                    <div class="tab-content wow fadeIn animated" id="myTabContent">
+
+                        <!-- CANNED GOODS -->
+
+                        <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Canned Goods" and forloop.counter <= 10 %} {# Check category andlimit to 10 products #} 
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- Product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}"
+                                                            alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_cd('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+                                                </div>
+
+                                                <!-- Compare modal-->
+                                                <div id="compareModalContainer_cd">
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+                                                <!-- Quickview modal-->
+                                                <div id="quickviewModalContainer">
+                                                </div>
+                                                {% include 'supermarket/quickview_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+
+                                            <!-- Product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--End tab one-->
+
+
+                        <!--WATER-->
+                        <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Water" and forloop.counter <= 10 %} {# Check category and limit to 10 products #} 
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}"
+                                                            alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_water('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_water">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+
+                                            <!-- product content -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--End tab two-->
+
+
+                        <!--MILK-->
+
+                        <div class="tab-pane fade" id="tab-three" role="tabpanel" aria-labelledby="tab-three">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Milk" and forloop.counter <= 10 %} {# Check category and limit to 10 products #} 
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- prouct image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}"
+                                                            alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_milk('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_milk">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+
+                                            <!-- product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title}}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <!--End product-grid-4-->
+                        </div>
+                        <!--End tab three-->
+
+
+                        <!--COFFEE-->
+                        <div class="tab-pane fade" id="tab-four" role="tabpanel" aria-labelledby="tab-four">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Coffee" and forloop.counter <= 10 %} {# Check category and limit to 10 products #} 
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i
+                                                            class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_coffee('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_coffee">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+
+                                            </div>
+
+                                            <!-- product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title}}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--End tab four-->
+
+
+                        <!--NOODLES-->
+
+                        <div class="tab-pane fade" id="tab-five" role="tabpanel" aria-labelledby="tab-five">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Noodles" and forloop.counter <= 10 %} {# Check category and limit to 10 products #}
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i
+                                                            class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_noodles('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_noodles">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+
+                                            </div>
+
+                                            <!-- product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--End tab five-->
+
+
+                        <!--LAUNDRY AID-->
+
+                        <div class="tab-pane fade" id="tab-six" role="tabpanel" aria-labelledby="tab-six">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Laundry Aids" and forloop.counter <= 10 %} {# Check category and limit to 10 products #} 
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i
+                                                            class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_laundry('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_laundry">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+
+                                            </div>
+
+                                            <!-- product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- BREAD-->
+
+                        <div class="tab-pane fade" id="tab-seven" role="tabpanel" aria-labelledby="tab-seven">
+                            <div class="container-fluid">
+                                {% for category, products in product_details_list.items %}
+
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% if category == "Bread" and forloop.counter <= 10 %} {# Check category and limit to 10 products #}
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <!-- product image -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i
+                                                            class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal_bread('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+
+                                                </div>
+
+                                                <!-- Add an empty modal container with an ID -->
+                                                <div id="compareModalContainer_bread">
+
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+
+                                            </div>
+
+                                            <!-- product info -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-rate-cover">
+                                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+
+                                                </div>
+                                                <div>
+                                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                        <span>{{ product.discounted_price }}</span>
+                                                        {% if product.original_price %}
+                                                        <span class="old-price">{{ product.original_price }}</span>
+                                                        {% else %}
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <span>{{ product.original_price }}</span>
+                                                        <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if forloop.counter|divisibleby:10 and not forloop.last %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+
+    <!--Deals Of The Day section-->
+    <section class="section-padding pb-5">
+        <div class="section-title">
+            <h3 class="">Deals Of The Day</h3>
+            <a class="show-all" href="{% url 'home:discounts' %}">
+                All Deals
+                <i class="fi-rs-angle-right"></i>
+            </a>
+        </div>
+
+        <div class="row">
+            {% for category, products in product_details_list.items %}
+            {% for product in products %}
+            {% if product in random_discount %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="product-cart-wrap style-2">
+                    <div class="product-img-action-wrap">
+                        <div class="product-img">
+                            <a href="shop-product-right.html">
+                                <img src="{% static 'imgs/banner/discount-banner.png' %}" alt="">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="product-content-wrap">
+
+                        <div class="deals-content">
+                            <div style="text-align: center;padding: 10px;">
+                                <h2>{{ product.supermarket }}</h2>
+                                <img style="width:120px; height: 65px;"
+                                    src="{% static 'icons/' %}{{ product.supermarket|lower }}.png"
+                                    alt="Supermarket Logo">
+                            </div>
+
+                            <h2><a href="shop-product-right.html">{{ product.title }}</a></h2>
+                            <div class="product-rate-cover">
+                                <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+                            </div>
+                            <div>
+                                <span class="font-small text-muted">{{ category }}</span>
+                            </div>
+                            <div class="product-card-bottom">
+                                <div class="product-price">
+                                    {% if product.discounted_price %}
+                                    <span>{{ product.discounted_price }}</span>
+                                    {% if product.original_price %}
+                                    <span class="old-price">{{ product.original_price }}</span>
+                                    {% else %}
+                                    <span class="old-price"></span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span>{{ product.original_price }}</span>
+                                    <span class="old-price"></span>
+                                    {% endif %}
+                                </div>
+                                <div class="add-cart">
+                                    <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+
+    </section>
+    <!--End Deals-->
+
+    <!-- Supermarket Buttons -->
+    <section class="banners">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="banner-img wow fadeIn animated">
+                    <img src="{% static 'imgs/banner/Metro_Banner.png' %}" alt="">
+                    <div class="banner-text">
+                        <h4> World-class & <br>Satisfying <br>Shopping<br> Experience</h4>
+                        <a href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}"
+                            class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="banner-img wow fadeIn animated">
+                    <img src="{% static 'imgs/banner/P_Banner.png' %}" alt="">
+                    <div class="banner-text">
+                        <h4>Supermarket of <br>Choice for<br>Fresh and<br>Healthy Food</h4>
+                        <a href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}"
+                            class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="banner-img wow fadeIn animated">
+                    <img src="{% static 'imgs/banner/Walter_Banner.png' %}" alt="">
+
+                    <div class="banner-text">
+                        <h4>Happy and Safe <br> Shopping<br> Environment</h4>
+                        <a href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}"
+                            class="btn btn-xs">Shop Now <i class="fi-rs-arrow-small-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--End banners-->
+    </div>
+    <div class="col-lg-1-5 primary-sidebar sticky-sidebar pt-30">
+        <div class="sidebar-widget widget-category-2 mb-30">
+            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+            <ul>
+                <li> <a href="{% url 'home:category' category_name='Canned Goods' %}"> <img src="{% static 'imgs/theme/icons/cannedfood.png' %}" alt="">Canned Goods</a><span class="count">{{ category_counts.Canned_Goods }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Milk' %}"> <img src="{% static 'imgs/theme/icons/milk.png' %}" alt="">Milk</a><span class="count">{{ category_counts.Milk }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Coffee' %}"> <img src="{% static 'imgs/theme/icons/coffee.png' %}" alt="">Coffee</a><span class="count">{{ category_counts.Coffee }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Bread' %}"> <img src="{% static 'imgs/theme/icons/bread.png' %}" alt="">Bread</a><span class="count">{{ category_counts.Bread }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Candle' %}"> <img src="{% static 'imgs/theme/icons/candles.png' %}" alt="">Candles</a><span class="count">{{ category_counts.Candle }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Water' %}"> <img src="{% static 'imgs/theme/icons/water.png' %}" alt="">Water/Mineral</a><span class="count">{{ category_counts.Water }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Vinegar' %}"> <img src="{% static 'imgs/theme/icons/vinegar.png' %}" alt="">Vinegar</a><span class="count">{{ category_counts.Vinegar }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Soy Sauce' %}"> <img src="{% static 'imgs/theme/icons/soysauce.png' %}" alt="">Soy Sauce</a><span class="count">{{ category_counts.Soy_Sauce }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Fish Sauce' %}"> <img src="{% static 'imgs/theme/icons/fishsauce.png' %}" alt="">Fish Sauce</a><span class="count">{{ category_counts.Fish_Sauce }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Noodles' %}"> <img src="{% static 'imgs/theme/icons/noodle.png' %}" alt="">Noodles</a><span class="count">{{ category_counts.Noodles }}</span></li>
+                <li> <a href="{% url 'home:category' category_name='Laundry Aids' %}"> <img src="{% static 'imgs/theme/icons/laundry.png' %}" alt="">Laundry Aids</a><span class="count">{{ category_counts.Laundry_Aids }}</span></li>
+            </ul>
+        </div>
+
+        <!-- Sidebar Reviews -->
+        <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
+            <h4 class="section-title style-1 mb-30 wow fadeIn animated animated animated">Review</h4>
+        
+        <section id="testimonials">
+            {% for comment in random_comments %}
+            <div class="testimonial-box-container">
+                <div>
+        
+                    <div class="box-top">
+                        <div class="profile">
+                            <div class="profile-img">
+                                <img src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-256.png" />
+                            </div>
+                            <div class="name-user">
+                                <strong>{{ comment.fname }} {{ comment.lname }}</strong>
+                                <span>{{ comment.username }}</span>
+                            </div>
+                        </div>
+                        <div class="reviews">
+                           
+                            <i class="far fa-star"></i><!--Empty star-->
+                        </div>
+                    </div>
+                    <div class="client-comment">
+                        <strong>{{ comment.product_title }}</strong>
+                        <p>{{ comment.comment_text }}</p>
+                    </div>
+                </div>
+                </div>
+                <br><br>
+                <br>
+                {% endfor %}
+          </section>
+    </div>
+    </div>
+</div>
+   
+
+    <section class="popular-categories section-padding">
+        <div class="container wow fadeIn animated">
+            <div class="section-title">
+                <div class="title">
+                    <h3>Shop by Categories </h3>
+                    <a class="show-all" href="shop-grid-right.html">
+                        All Categories
+                        <i class="fi-rs-angle-right"></i>
+                    </a>
+                </div>
+                <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow"
+                    id="carausel-8-columns-arrows"></div>
+            </div>
+            <div class="carausel-8-columns-cover position-relative">
+
+                <div class="carausel-8-columns" id="carausel-8-columns">
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Canned Goods' %}"><img
+                                src="{% static 'imgs/banner/Cannedgoods.png' %}" alt=""></a></a>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Milk' %}"><img
+                                src="{% static 'imgs/banner/Milk.png' %}" alt=""></a>
+                    </div>
+
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Bread' %}"><img
+                                src="{% static 'imgs/banner/Bread.png' %}" alt=""></a>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Coffee' %}"><img
+                                src="{% static 'imgs/banner/Coffee.png' %}" alt=""></a>
+                    </div>
+
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Noodles' %}"><img
+                                src="{% static 'imgs/banner/Noodles.png' %}" alt=""></a>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Fish Sauce' %}"><img
+                                src="{% static 'imgs/banner/Fishsauce.png' %}" alt=""></a>
+                    </div>
+
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Soy Sauce' %}"><img
+                                src="{% static 'imgs/banner/Soysauce.png' %}" alt=""></a>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Vinegar' %}"><img
+                                src="{% static 'imgs/banner/Vinegar.png' %}" alt=""></a>
+                    </div>
+
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Water' %}"><img
+                                src="{% static 'imgs/banner/Water.png' %}" alt=""></a>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Candle' %}"><img
+                                src="{% static 'imgs/banner/Candle.png' %}" alt=""></a>
+                    </div>
+
+                    <div class="column">
+                        <a href="{% url 'home:category' category_name='Laundry Aids' %}"><img
+                                src="{% static 'imgs/banner/Laundryaids.png' %}" alt=""></a>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+    <!--End category slider-->
+
+    <section class="section-padding mb-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-sm-5 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated animated animated"></h4>
+                    <div class="banner-img wow fadeIn mb-lg-0 animated d-lg-block d-none">
+                        <img src="{% static 'imgs/banner/bannerv.png' %}" alt="">
+                        <div class="banner-text" style="margin-left: -30px;">
+                            <h4><span class="text-brand"> Compare <br> Products</span></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated animated animated">Shop Metro</h4>
+                    <div class="product-list-small wow fadeIn animated animated animated">
+                        <article class="row align-items-center hover-up">
+                            {% for product in random_shopmetro|slice:":5" %}
+                            <figure class="col-md-4 mb-0">
+                                <a href="{% url 'home:product_detail' product_id=product.id %}
+">
+                                    <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                </a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a href="shop-product-right.html">{{ product.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <label class="fw-900 mt-15" style="width: 90%">{{product.category}}</label>
+                                </div>
+                                <div class="product-price">
+                                    {% if product.discounted_price %}
+                                    <span>{{ product.discounted_price }}</span>
+                                    {% if product.original_price %}
+                                    <span class="old-price">{{ product.original_price }}</span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span>{{ product.original_price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </article>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated animated animated">Waltermart</h4>
+                    <div class="product-list-small wow fadeIn animated animated animated">
+                        <article class="row align-items-center hover-up">
+                            {% for product in random_waltermart|slice:":5" %}
+                            <figure class="col-md-4 mb-0">
+                                <a href="{% url 'home:product_detail' product_id=product.id %}
+">
+                                    <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                </a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a href="shop-product-right.html">{{ product.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <label class="fw-900 mt-15" style="width: 90%">{{product.category}}</label>
+                                </div>
+                                <div class="product-price">
+                                    {% if product.discounted_price %}
+                                    <span>{{ product.discounted_price }}</span>
+                                    {% if product.original_price %}
+                                    <span class="old-price">{{ product.original_price }}</span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span>{{ product.original_price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </article>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated animated animated">Puregold</h4>
+                    <div class="product-list-small wow fadeIn animated animated animated">
+                        <article class="row align-items-center hover-up">
+                            {% for product in random_puregold|slice:":5" %}
+                            <figure class="col-md-4 mb-0">
+                                <a href="{% url 'home:product_detail' product_id=product.id %}
+">
+                                    <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                </a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h6>
+                                    <a href="shop-product-right.html">{{ product.title }}</a>
+                                </h6>
+                                <div class="product-rate-cover">
+                                    <label class="fw-900 mt-15" style="width: 90%">{{product.category}}</label>
+
+                                </div>
+                                <div class="product-price">
+                                    {% if product.discounted_price %}
+                                    <span>{{ product.discounted_price }}</span>
+                                    {% if product.original_price %}
+                                    <span class="old-price">{{ product.original_price }}</span>
+                                    {% else %}
+                                    <span class="old-price"></span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span>{{ product.original_price }}</span>
+                                    <span class="old-price"></span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </article>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+      // Compare Modal Canned Goods
+      function openCompareModal_cd(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_cd').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+        // Compare Modal Water
+        function openCompareModal_water(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_water').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+        // Compare Modal Milk
+        function openCompareModal_milk(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_milk').html(data);
+
+                // Show the modal
+                $('#compareModal' + productId).modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+         // Compare Modal Coffee
+         function openCompareModal_coffee(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_coffee').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+        // Compare Modal Noodles
+        function openCompareModal_noodles(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_noodles').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+         // Compare Modal Laundry
+         function openCompareModal_laundry(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_laundry').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+        // Compare Modal Bread
+        function openCompareModal_bread(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer_bread').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+
+
+</script>
+
+
+
+{% endblock %}

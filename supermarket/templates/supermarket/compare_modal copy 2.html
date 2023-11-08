@@ -1,0 +1,133 @@
+<style>
+    /* CSS for product cards */
+  
+
+    .modal-body{
+        
+        /* overflow: auto; */
+    }
+    #comparison-results{
+        display: inline-block;
+        overflow: auto;
+
+    }
+
+    .product-card {
+        position: linear;
+        width: 400px; /* Adjust the width as needed */
+        max-width: 300px;
+        max-height: 420px;
+        padding: 0px;
+        margin: 10px;
+        border-radius: 25px;
+    }
+
+    .product-info{
+        position: relative;
+        max-width: 350px;
+        display: block;
+        font-weight: 700;
+    }
+
+    .product-info h5 a{
+        font-size: 18px;
+        max-width: 300px;
+        font-weight: 700;
+        color: #253D4E;
+    }
+
+    .product-info h3 a:hover{
+        color: #3BB77E;
+    }
+
+    .product-price{
+        color: #3BB77E;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    /* CSS for product images */
+    .product-image img {
+        max-width: 50%; /* Make sure the image fits within the product card */
+        height: 200px; /* Maintain the image's aspect ratio */
+        width: 200px;
+        padding-top: 15px;
+        display: block; /* Remove any extra spacing */
+        margin: 0 auto; /* Center the image horizontally */
+    }
+</style>
+
+<!-- Compate Modal -->
+<div class="modal fade compare-modal" id="compareModal{{ product_id }}" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" >              
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>       
+            
+            <div class="modal-body">
+                <div class="row">
+
+                    <!-- card -->
+                    <h2 style="text-align: center;">Compare Products</h2><br>
+                    <br><br>
+
+                    <!-- Add code to display similar products here -->
+                    <div id="comparison-results" class="d-flex flex-row flex-nowrap" >
+                        <!-- Comparison results will be displayed here -->
+                        <div class="col-lg-4 col-md-5 col-6 col-sm-8">
+                            <div class="product-cart-wrap mb-30" style="flex: 0 0 auto;  border: 3px solid #10a141;">
+                                <h4 style="text-align: center; padding-top: 10px;">{{ product_supermarket }}</h4>
+    
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <img src="{{ product_image }}" alt="{{ product_title }}">
+                                    </div>
+                                </div><br>
+    
+                                <div class="product-content-wrap">
+                                    <h5>{{ product_title }}</h5>
+                                    <div class="product-card-bottom">
+                                        <div class="product-price">
+                                            Price: {{ product_price }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for similar_product in similar_products %}
+                        <div class="col-lg-4 col-md-5 col-6 col-sm-8">
+                            <div class="product-cart-wrap mb-30" style="flex: 0 0 auto;">
+                                <h4 style="text-align: center; padding-top: 10px;">{{ similar_product.supermarket }}</h4>
+    
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <img src="{{ similar_product.image }}" alt="{{ similar_product.title }}">
+                                    </div>
+                                </div><br>
+    
+                                <div class="product-content-wrap">
+                                    <h5>{{ similar_product.title }}</h5>
+                                    <div class="product-card-bottom">
+                                        <div class="product-price">
+                                            Price: {{ similar_product.original_price }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        
+                    </div>
+                </div>
+            </div> 
+
+            <div class="noted-button">
+                <a id="notedButton" data-bs-dismiss="modal">Noted! </a>
+            </div>       
+        </div>
+    </div>
+</div>
+

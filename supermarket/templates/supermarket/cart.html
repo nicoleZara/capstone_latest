@@ -1,0 +1,73 @@
+{% extends "includes/base.html" %} 
+{% load static %}
+
+
+
+{% block content %}
+
+<!-- Floating buttons -->
+<div class="product-action-1">
+    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+    <a aria-label="Compare" class="action-btn" data-bs-toggle="modal" data-bs-target="#compareModal{{ product.id }}" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+    <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade custom-modal compare-modal" id="compareModal{{ product.id }}" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">              
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>       
+            
+            <div class="modal-body">
+                <div class="row">
+
+                    <!-- card -->
+                    <h2 style="text-align: center;">Compare Products</h2><br>
+
+                    <h3>Selected Product:</h3>
+                    <!-- Display details of the selected product -->
+                    <h5>{{ title }}</h5>
+                    <h5>{{ price }}</h5>
+
+
+                    <br><br>
+                    <h3>Compare with</h3>
+                    <!-- Add code to display similar products here -->
+                    <div id="comparison-results">
+                        <!-- Comparison results will be displayed here -->
+                        
+                        
+                        <div class="col">
+                        {% for similar_product in similar_products %}
+                       
+                            <li>
+                                <div class="product-image">
+                                    <img src="{{ similar_product.image_url }}" alt="{{ similar_product.title }}">
+                                </div>
+                                <div class="product-info">
+                                    <h3>{{ similar_product.title }}</h3>
+                                    <p>Supermarket: {{ similar_product.supermarket }}</p>
+                                    <p>Price: {{ similar_product.original_price }}</p>
+                                    <!-- Add any other information you want to display -->
+                                </div>
+                            </li>
+
+                        
+                           
+                        {% endfor %}
+                        </div>
+                    </div>
+          
+                </div>
+            </div> 
+
+            <div class="noted-button">
+                <a id="notedButton" data-bs-dismiss="modal">Noted! </a>
+            </div>       
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

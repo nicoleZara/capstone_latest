@@ -1,0 +1,79 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="page-content pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                <div class="row">
+                    <div class="col-lg-7 pr-30 d-none d-lg-block">
+                        <div class="image-slogan-container">
+                            <img class="border-radius-15" src="{% static 'imgs/banner/login3.svg' %}" alt=""
+                                style="width: 800px;">
+                            <!-- Add your slogan here beside the image -->
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-8">
+                        <div class="login_wrap widget-taber-content background-white">
+                            <div class="padding_eight_all bg-white">
+                                <div class="heading_s1">
+                                    <h1 class="mb-5">Login</h1>
+                                    <p class="mb-30">Don't have an account? <a href="{% url 'auth_system:register-page' %}">Register here</a>
+                                    </p>
+                                </div>
+                                <form action="" method='POST'>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" required="" name="username" placeholder="Enter Username *">
+                                    </div>
+                                    <div class="form-group">
+                                        <input required="" type="password" id="password" name="passwordli" placeholder="Enter Password"
+                                            style="padding-right: 45px;">
+                                        <i class="fa fa-eye-slash" id="pass-toggle" 
+                                        style="cursor: pointer; position: absolute; right: 30px; bottom: 52%;"></i>
+
+                                    </div>
+                                    <div class="login_footer form-group mb-50">
+                                        <div class="chek-form"> 
+                                            <div class="custome-checkbox">
+                                                <input class="form-check-input" type="checkbox" name="checkbox"
+                                                    id="exampleCheckbox1" value="">
+                                                <label class="form-check-label" for="exampleCheckbox1"><span>Rememberme</span></label>
+                                            </div>
+                                        </div>
+                                        <a class="text-muted" href="{% url 'auth_system:request_password_reset' %}">Forgot password?</a>
+                                    </div>
+                                    {% if messages %}
+                                    <div class="">
+                                        <ul>
+                                            {% for message in messages %}
+                                                {% if message.tags == 'success' %}
+                                                    <div class="alert alert-success">
+                                                        {{ message }}
+                                                    </div>
+                                                {% elif message.tags == 'error' %}
+                                                    <div class="alert alert-danger">
+                                                        {{ message }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-heading btn-block hover-up"name="login">Log in</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

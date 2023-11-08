@@ -1,0 +1,315 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block content %}
+
+<main class="main">
+  <div class="container mb-30">
+    <div
+      style="position: fixed; top: 100px; right: 0; z-index: 100; background-color: #3bb77e; margin-right: 20px;box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px; padding: 10px;">
+      <nav>
+        <select id="supermarketDropdown" style="font-weight: bold; color: white;">
+          <option value="all" style="font-weight: bold; color: white;">
+            All Supermarkets
+            <i class="fi-rs-angle-down"></i>
+            <ul class="sub-menu">
+              {% for supermarket in supermarkets %}
+          <option value="{{ supermarket }}" style="font-weight: bold; color: #3bb77e;">{{ supermarket }}</option>
+          {% endfor %}
+          </ul>
+          </option>
+        </select>
+      </nav>
+    </div>
+
+
+
+    <div class="row flex-row-reverse">
+      <div class="col-lg-4-5">
+        <section class="home-slider position-relative mb-30">
+          <div class="home-slide-cover mt-30">
+            <div class="card shadow" style="border: none;">
+              <div><canvas id="horizontalBarChart" style="height: 300px;"></canvas></div>
+              <div class="card-body">
+                <h5 class="card-title">Number of Discounted Product per Category</h5>
+                <p class="card-text">
+                  Shows the count of products that contains a discounted price.
+                </p>
+              </div>
+            </div><br><br>
+
+          </div>
+        </section>
+        <!--End hero-->
+      </div>
+      <div class="col-lg-1-5 primary-sidebar sticky-sidebar pt-30">
+        <div>
+          <img src="{% static 'imgs/banner/3d_phone.png' %}">
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row flex-row-reverse">
+      <div class="col-lg-1-5 primary-sidebar sticky-sidebar pt-30">
+
+        <div>
+          <img src="{% static 'imgs/banner/3d_laptop.png' %}">
+        </div>
+      </div>
+      <div class="col-lg-4-5">
+        <section class="home-slider position-relative mb-30">
+          <div class="home-slide-cover mt-30">
+            <div class="card shadow" style="border: none;">
+              <div>
+                <div id="box-plot" style="height:300px"></div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Average Price of Products per Category</h5>
+                <p class="card-text">
+                  Shows the average price for each category under the three supermarkets.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--End hero-->
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!--<div style="border-radius: 20px; background: #dbbfdf;width: 100%;height: 10px; margin-bottom: 2%;"> &nbsp;</div>-->
+
+  <div style="display: flex;margin-bottom: 50px;">
+    <!-- <div class="container d-flex justify-content-start align-items-start" style="width: 35%;">
+     <div>
+      <img src="{% static '/imgs/banner/cart.png' %}" style="height: 400px;margin-top: -30px;">
+      <h1 class="header">Hello,<br> name ng user<img src="{% static '/icons/icons-handwave.svg' %}"
+          style="height: 50px;margin-top: -30px;"></h1>
+    </div> --
+  </div> -->
+    <div class="container"
+      style="border-radius: 20px; background: #dbbfdf; box-shadow: 20px 20px 60px #a48fa7, -20px -20px 60px #ffefff; padding: 20px;">
+      <div class="row">
+        <div class="col-lg-3">
+          <div>
+            <br><br>
+            <h5 class="card-title" style="font-size: 40px;">Price<br> Distribution</h5>
+            <p class="card-text">
+              The Price distribution shows the frequency of products in several range.</p>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="col-md-12">
+            <canvas id="priceDistributionHistogram" style="height: 500px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!----------------->
+  <div class="card shadow" style="border: none; background-color: white;">
+    <div id="priceHistoryChart"></div>
+    <div class="card-body">
+      <h5 class="card-title">Price History</h5>
+      <p class="card-text">
+        Shows the price trend on specific product
+      </p>
+    </div>
+  </div>
+  <br><br>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card shadow" style="border: none;">
+        <div><canvas id="barChart" style="height:420px"></canvas></div>
+        <div class="card-body">
+          <h5 class="card-title">Total Price of Product Based on Category</h5>
+          <p class="card-text">
+            The bar chart shows the total product price for each category. User can also filter the results based on
+            supermarket.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow" style="border: none;">
+        <div>
+          <canvas id="horizontalBarChart2" style="height:200px"></canvas>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Discounted vs Regular Price</h5>
+          <p class="card-text">
+            This horizontal bar chart allows users to compare the discounted price and regular price of all the products
+            within each category on the supermarket.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------>
+  <div class="container-fluid" style="padding: 5%;">
+    <div class="row justify-content-center" style=" text-align: center;">
+      <div class="col-md-3"
+        style="border-radius: 40px; background: #937de4; box-shadow: 26px 26px 52px #614cad, inset -26px -26px 52px #8f6bff; margin-right: 2%; margin-left: 20px; display: flex; flex-direction: column; align-items: center; padding: 10px;">
+        <h4 style="margin-bottom: 10px;">Top Reason why People <br>use our Website</h4>
+
+        <div style="flex: 5;">
+          <img src="{% static 'icons/reason.png' %}" style="height: 290px; width: 100%;">
+        </div>
+        <div style="flex: 1; padding-left: 10px;">
+          <h4 style="font-size: medium;">"{{ most_common_purpose }}"</h4>
+          <h4 style="font-size: medium;">Count : {{ most_common_count }}</h4>
+        </div>
+      </div>
+
+
+
+      <div class="col-md-3" style="border-radius: 40px; background: #ffc252; margin-right: 2%;">
+        <h4>Most Liked Product</h4><br>
+        <h4 style="font-size: medium;"> {{ most_liked_title }} </h4>
+        <h5 style="font-size: medium;">Original Price: {{ most_liked_original_price }}</h5>
+        <div style="border-radius: 40px; overflow: hidden;"><br>
+          <img src="{{ most_liked_image }}" alt="{{ most_liked_title }}" style="border-radius: 20px;">
+
+        </div>
+
+        <h4>{{most_liked_total_count}}<img src="{% static 'icons/like.png' %}" style="height: 30px;"></h4>
+
+      </div>
+      <div class="col-md-3" style="border-radius: 40px; background: #34da31; margin-right: 2%;">
+        <h4>Most Disliked Product</h4><br>
+        <h4 style="font-size: medium;"> {{ most_disliked_title }} </h4>
+        <h5 style="font-size: medium;">Original Price: {{ most_disliked_original_price }}</h5>
+        <div style="border-radius: 40px; overflow: hidden;"><br>
+          <img src="{{ most_disliked_image }}" alt="{{ most_disliked_title }}" style="border-radius: 20px;">
+
+        </div>
+
+        <h4>{{most_disliked_total_count}}<img src="{% static 'icons/dislike.png' %}" style="height: 30px;"></h4>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card shadow" style="border: none; background-color: white;">
+        <div style="height:700px"><canvas id="doughnutChart"></canvas></div>
+        <div class="card-body">
+          <h5 class="card-title">Number of Products per Supermarket</h5>
+          <p class="card-text">
+            The pie chart indicates the toal count of products in each supermarekt in the database
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow" style="border: none; background-color: white;">
+        <div style="height:700px"><canvas id="pieChart"></canvas></div>
+
+        <div class="card-body">
+          <h5 class="card-title">Total Amount per Supermarket</h5>
+          <p class="card-text">
+            The pie chart indicates the total price accumulated per each supermarket
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display: flex;margin-bottom: 50px;padding: 4%;">
+
+    <div class="container" style="border-radius: 20px;
+  background: #b4f16b;
+  box-shadow:  20px 20px 41px #87b550,
+               -20px -20px 41px #e1ff86; padding: 20px;">
+      <br><br>
+      <div class="row">
+        <div class="col-lg-3">
+          <div>
+            <h2>User Gender and Count</h2>
+            <p>Shows the number of users gender registered in the system</p>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="col-md-12">
+            <canvas id="ageHistogram" style="height:280px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container d-flex justify-content-start align-items-start" style="width: 35%;">
+      <div>
+        <img src="" style="height: 400px;margin-top: -30px;">
+        <h1 class="header">User <br> Dashboard<img src="" style="height: 50px;"></h1>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card shadow" style="border: none; background-color: white;">
+      <div id="birthday-chart"></div>
+      <div class="card-body">
+        <h5 class="card-title">Birthday Count</h5>
+        <p class="card-text">
+          Shows the count of users based on their birthdate
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  <div class="col">
+    <div class="card shadow" style="border: none; background-color: white;">
+      <div id="heatmap-plot"></div>
+      <div class="card-body">
+        <h5 class="card-title"> Products Likes and Dislikes</h5>
+        <p class="card-text">
+          Distribution of products likes and dislikes through a heatmap </p>
+      </div>
+    </div>
+  </div>
+  <!--
+<div class="container d-flex card shadow" style="border: none; background-color: white;padding: 5%;">
+  <canvas id="cuisineTypeChart"></canvas>
+  <div class="card-body">
+    <h5 class="card-title">adasd</h5>
+    <p class="card-text">
+asdas    </p>
+  </div>
+</div>-->
+
+
+
+
+  <div style="border-radius: 20px; background: #dbbfdf;width: 100%;height: 10px; margin-bottom: 2%;margin-top: 3%;">
+    &nbsp;</div>
+
+
+
+
+
+</main>
+
+
+<!-- Preloader Start -->
+<div id="preloader-active">
+  <div class="preloader d-flex align-items-center justify-content-center">
+    <div class="preloader-inner position-relative">
+      <div class="text-center">
+        <img src="assets/imgs/theme/loading.gif" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

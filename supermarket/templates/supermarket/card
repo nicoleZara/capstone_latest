@@ -1,0 +1,41 @@
+ <div class="product-cart-wrap mb-30">
+    <!-- image -->
+    <div class="product-img-action-wrap">
+        <div class="product-img product-img-zoom">
+            <a href="{% url 'home:product_detail' product.id %}">
+                <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+            </a> 
+        </div>
+    </div>
+    <!-- product content -->
+    <div class="product-content-wrap">
+        <div class="product-category">
+            <a href="shop-grid-right.html">{{ product.category }}</a>
+        </div>
+        <h2><a href="{% url 'home:product_detail' product.id %}">{{ product.title }}</a></h2>
+        <div class="product-supermarket">
+            <a href="shop-grid-right.html">{{ product.supermarket }}</a>
+        </div>
+        
+        <div class="product-card-bottom">
+            <div class="product-price">
+                {% if product.discounted_price %}
+                    <span>{{ product.discounted_price }}</span>
+                    {% if product.original_price %}
+                        <span class="old-price">{{ product.original_price }}</span>
+                    {% else %}
+                        <span class="old-price"></span>
+                    {% endif %}
+                {% else %}
+                    <span>{{ product.original_price }}</span>
+                    <span class="old-price"></span>
+                {% endif %}
+            </div>
+
+            <div class="add-cart">
+                <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+            </div>
+            
+        </div>
+    </div>
+</div>

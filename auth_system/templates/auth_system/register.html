@@ -1,0 +1,406 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="page-content pt-70 pb-70">
+    <div class="container">
+        <div class="row">
+            <form action="" method='POST'>
+                {% csrf_token %}
+                <div class=" col-lg-10 col-md-8 m-auto"
+                    style="border-radius: 3%;border: 2px;border-style: solid;border-color: #3bb77e;">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 pb-50"
+                            style="background-image: url('{% static 'images/loginbg.jpg' %}');border-top-left-radius: 3%;border-bottom-left-radius: 3%;">
+                            <div class="login_wrap widget-taber-content">
+                                <div class="padding_eight_all" style="border-radius: 4%;padding: 5%;">
+                                    <div class="heading_s1">
+                                        <h1 class="mb-35 mt-15 text-white">Create an Account</h1>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" required name="fname" placeholder="First Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="text" required name="lname" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text"  id="uname" required name="uname" placeholder="Username">
+                                        </div>
+                                        <div id="username-error" class="username-error"> </div>
+
+
+                                        <div class="form-group">
+                                            <input type="email" id="email" name="email" placeholder="Email" required>
+                                        </div>
+                                        <div id="email-error" class="email-error">
+                                            <!-- Error messages will be displayed here -->
+                                        </div>
+                                        <div id="email-validation-message" class="email-validation-message"></div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <i class="fa fa-eye-slash" id="p-toggle" 
+                                                        style="cursor: pointer; position: absolute; right: 25px; top: 25px;"></i>
+
+                                                    <input required type="password" name="password" class="form-control" id="p_password" placeholder="Password"
+                                                        style="padding-right: 30px;">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <i class="fa fa-eye-slash" id="confirm-p-toggle" 
+                                                        style="cursor: pointer; position: absolute; right: 25px; top: 25px;"></i>
+
+                                                    <input required type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm password"
+                                                        style="padding-right: 30px;">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="pass-validation-message" class="email-validation-message"></div>
+                                        <div id="c-pass-validation-message" class="email-validation-message"></div>
+
+
+                                        
+                                        {% if messages %}
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                {% for message in messages %}
+                                                <li>{{ message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-12 "
+                            style="background-color: white;padding: 5%;border-top-right-radius: 5%;border-bottom-right-radius: 5%;">
+                            <div>
+                                <h3 class="mb-5">Personal Information</h3>
+                                <hr>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender" style="color: #220000;">Gender</label>
+                                <select class="form-control" id="gender" name="gender" required style="background-color: white;">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="birthday" style="color: #220000;">Birthday</label>
+                                        <input type="date" class="form-control" id="birthday" name="birthday" required
+                                            style="background-color: white;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="age" style="color: #220000;">Age (automatically filled)</label>
+                                        <input type="text" class="form-control" placeholder="(in years)" id="ageResult"
+                                            name="age" style="background-color: white;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                           <!-- CITY, REGION IN ONE ROW -->
+                            <div class="row col-md-12">
+                                <div class="form-group col-md-5">
+                                    <label for="region" style="color: #220000;">Region</label>
+                                    <select id="region" name="region" class="field" style="background-color: white;" required>
+                                        <option selected disabled value="">Select Region</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <label for="city" style="color: #220000;">City</label>
+                                    <select id="city" name="city" class="field" style="background-color: white;" required>
+                                        <option selected disabled value="">Select City</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a valid City.
+                                    </div>
+                                </div>
+                            </div> <br><br>
+
+        
+
+
+                            <div class="form-group">
+                                <label for="purpose" style="color: #220000;">Purpose</label>
+                                <select class="form-control" id="purpose" name="purpose" style="background-color: white;">
+                                    <option value="Budget">To Find Cheap Products</option>
+                                    <option value="Student">As a Boarding Student</option>
+                                    <option value="Party">Preparing for a Party</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <!-- <div class="login_footer form-group mb-20">
+                                <div class="chek-form">
+                                    <div class="custome-checkbox">
+                                        <input required="Please tick" class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="">
+                                        <label class="form-check-label" for="exampleCheckbox12"><span>I agree to terms &amp; Policy.</span></label>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="form-group mb-20">
+                                <button type="submit" id="submit-button" class="btn btn-fill-out btn-block hover-up font-weight-bold"
+                                    name="register">Submit &amp; Register
+                                </button>
+                                <p class="mt-20">Already have an account? <a
+                                        href="{% url 'auth_system:login-page' %}"><u><strong>Login</strong></u></a></p>
+                            </div>
+                            <p class="font-xs text-muted"><strong>Note:</strong> Your personal data will be used
+                                to support your experience throughout this website, to manage access to your
+                                account, and for other purposes described in our privacy policy
+                            </p>
+                            <!-- <div class="card-login mt-115">
+                                <a href="#" class="social-login google-login">
+                                    <img src="{% static 'imgs/theme/icons/logo-google.svg' %}" alt="">
+                                    <span>Continue with Google</span>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+    </div><br><br>
+
+
+    <script src="{% static 'js/plugins/jquery-3.6.0.min.js' %}"></script>
+    
+    <script>
+        // Function to validate the username
+        $(document).ready(function() {
+            $('#uname').on('input', function() {
+                var username = $(this).val();
+                var csrfToken = $('input[name=csrfmiddlewaretoken]').val(); // Get the CSRF token
+
+                if (username) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/check_uname/',  // URL to check username availability
+                        data: { 'uname': username,
+                                'csrfmiddlewaretoken': csrfToken, // Include the CSRF token in the request data 
+
+                                },
+                        success: function(data) {
+                            if (data.exists) {
+                                $('#username-error').text('This username is already in use.');
+                                $('#username-error').css('color', 'red');
+
+                            } else {
+                                $('#username-error').text('');
+                            }
+                        }
+                    });
+                } else {
+                    $('#username-error').text('');
+                }
+            });
+        });
+    </script>
+        
+    <script>         
+    // Function to validate the email
+        $(document).ready(function() {
+
+            $('#email').on('input', function() {
+                var email = $(this).val();
+                var csrfToken = $('input[name=csrfmiddlewaretoken]').val(); // Get the CSRF token
+
+                if (email) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/check_email/',  // URL to check email availability
+                        data: { 
+                            'email': email,
+                             'csrfmiddlewaretoken': csrfToken, // Include the CSRF token in the request data 
+                            },
+                        success: function(data) {
+                            if (data.exists) {
+                                $('#email-error').text('This email address is already in use.');
+                                $('#email-error').css('color', 'red');
+
+                            } else {
+                               // Check for additional email validation rules
+                                var errorMessage = '';
+
+                                // Check for spaces in the email
+                                if (email.indexOf(' ') !== -1) {
+                                    errorMessage = 'Email should not contain spaces';
+                                }
+
+                                // Check for special characters at the beginning
+                                if (/^[^a-zA-Z0-9]/.test(email)) {
+                                    errorMessage = 'Email should not start with special characters';
+                                }
+
+                                if (errorMessage) {
+                                    $('#email-error').text(errorMessage);
+                                    $('#email-error').css('color', 'red');
+                                    disableSubmitButton()
+                                } else {
+                                    $('#email-error').text('');
+
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    enableSubmitButton();
+                    
+                } 
+                
+            });
+        });
+
+        // Function to disable the submit button
+        function disableSubmitButton() {
+            var submitButton = $('#submit-button');
+            submitButton.prop('disabled', true);
+        }
+
+        // Function to enable the submit button
+        function enableSubmitButton() {
+            var submitButton = $('#submit-button');
+            submitButton.prop('disabled', false);
+        }
+    </script>
+
+    
+    <script>     // Function to validate the password
+
+        
+
+        // Function to check if passwords match
+        function checkPasswordMatch() {
+            var password = document.getElementById("password");
+            var confirm_password = document.getElementById("confirm_password");
+            var password_error = document.getElementById("c-pass-validation-message");
+            var submit_button = document.getElementById("submit-button");
+
+            if (confirm_password.value !== "") {
+                if (confirm_password.value !== password.value) {
+                    password_error.textContent = "Password and Confirm Password do not match.";
+                    password_error.style.color = "red"; // Set the text color to red
+                    disableSubmitButton();
+                } else {
+                    password_error.textContent = ""; // Clear the error message if passwords match
+                    password_error.style.color = ""; // Remove the text color style to reset it to the default color
+                    enableSubmitButton();
+                }
+            } else {
+                password_error.textContent = ""; // Clear the error message if passwords match
+                
+            }
+        }
+
+        // Attach the validatePassword function to the password and confirm_password input fields
+        document.getElementById("password").addEventListener("input", validatePassword);
+        document.getElementById("confirm_password").addEventListener("input", checkPasswordMatch); 
+    </script>
+
+
+<!--  -->
+
+ 
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--<script>
+        $(document).ready(function () {
+            const passwordInput = $("#password");
+            const passwordToggle = $("#password-toggle");
+
+            passwordToggle.click(function () {
+                if (passwordInput.attr("type") === "password") {
+                    passwordInput.attr("type", "text");
+                    passwordToggle.removeClass("fa-eye-slash").addClass("fa-eye");
+                } else {
+                    passwordInput.attr("type", "password");
+                    passwordToggle.removeClass("fa-eye").addClass("fa-eye-slash");
+                }
+            });
+        });
+    </script> -->
+
+    
+
+
+    <!-- Javascript for locaiton API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        
+            const cityList = document.getElementById('city');
+            fetch('https://psgc.gitlab.io/api/island-groups/luzon/cities')
+            .then(response => response.json())
+            .then(data => {
+            data.forEach(city => {
+                const option1 = document.createElement('option');
+                option1.value = city.name;
+                option1.text = city.name;
+                cityList.add(option1);
+            });
+            });
+
+            const regionList = document.getElementById('region');
+            fetch('https://psgc.gitlab.io/api/island-groups/luzon/regions')
+            .then(response => response.json())
+            .then(data => {
+            data.forEach(region => {
+                const option1 = document.createElement('option');
+                option1.value = region.name;
+                option1.text = region.name;
+                regionList.add(option1);
+            });
+            });
+
+        });
+
+
+
+        // Function to calculate age based on the entered date of birth
+        function calculateAge() {
+            const birthdayInput = document.getElementById("birthday");
+            const ageResult = document.getElementById("ageResult");
+
+            // Get the entered date of birth
+            const dob = new Date(birthdayInput.value);
+
+            // Check if a valid date is entered
+            if (isNaN(dob.getTime())) {
+                ageResult.value = "0";
+                return;
+            }
+
+            // Calculate the age
+            const today = new Date();
+            const age = today.getFullYear() - dob.getFullYear();
+
+            // Display the age
+            ageResult.value = age;
+        }
+
+        // Add an event listener to the birthday input field to calculate age on input change
+        const birthdayInput = document.getElementById("birthday");
+        birthdayInput.addEventListener("change", calculateAge);
+    </script>
+
+    {% endblock %}

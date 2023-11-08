@@ -1,0 +1,1510 @@
+{% load static %}
+
+<!-- AUTHENTICATION -->
+
+<script>
+    // Function to validate the username
+    $(document).ready(function() {
+        $('#uname').on('input', function() {
+            var username = $(this).val();
+            var csrfToken = $('input[name=csrfmiddlewaretoken]').val(); // Get the CSRF token
+
+            if (username) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/check_uname/',  // URL to check username availability
+                    data: { 'uname': username,
+                            'csrfmiddlewaretoken': csrfToken, // Include the CSRF token in the request data 
+
+                            },
+                    success: function(data) {
+                        if (data.exists) {
+                            $('#username-error').text('This username is already in use.');
+                            $('#username-error').css('color', 'red');
+
+                        } else {
+                            $('#username-error').text('');
+                        }
+                    }
+                });
+            } else {
+                $('#username-error').text('');
+            }
+        });
+    });
+</script>
+    
+<script>         
+// Function to validate the email
+    $(document).ready(function() {
+
+        $('#email').on('input', function() {
+            var email = $(this).val();
+            var csrfToken = $('input[name=csrfmiddlewaretoken]').val(); // Get the CSRF token
+
+            if (email) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/check_email/',  // URL to check email availability
+                    data: { 
+                        'email': email,
+                         'csrfmiddlewaretoken': csrfToken, // Include the CSRF token in the request data 
+                        },
+                    success: function(data) {
+                        if (data.exists) {
+                            $('#email-error').text('This email address is already in use.');
+                            $('#email-error').css('color', 'red');
+
+                        } else {
+                           // Check for additional email validation rules
+                            var errorMessage = '';
+
+                            // Check for spaces in the email
+                            if (email.indexOf(' ') !== -1) {
+                                errorMessage = 'Email should not contain spaces';
+                            }
+
+                            // Check for special characters at the beginning
+                            if (/^[^a-zA-Z0-9]/.test(email)) {
+                                errorMessage = 'Email should not start with special characters';
+                            }
+
+                            if (errorMessage) {
+                                $('#email-error').text(errorMessage);
+                                $('#email-error').css('color', 'red');
+                                disableSubmitButton()
+                            } else {
+                                $('#email-error').text('');
+
+                            }
+                        }
+                    }
+                });
+            } else {
+                enableSubmitButton();
+                
+            } 
+            
+        });
+    });
+
+    // Function to disable the submit button
+    function disableSubmitButton() {
+        var submitButton = $('#submit-button');
+        submitButton.prop('disabled', true);
+    }
+
+    // Function to enable the submit button
+    function enableSubmitButton() {
+        var submitButton = $('#submit-button');
+        submitButton.prop('disabled', false);
+    }
+</script>
+
+
+<script>     // Function to validate the password
+
+    function validatePassword() {
+        var password = document.getElementById("p_password");
+        var confirm_password = document.getElementById("confirm_password");
+        var password_error = document.getElementById("pass-validation-message");
+        var submit_button = document.getElementById("submit-button");
+
+        // Define your password validation rules
+        var hasUpperCase = /[A-Z]/.test(password.value);
+        var hasSpecialChar = /[!@#$%^&*]/.test(password.value);
+        var hasNoSpace = !/\s/.test(password.value);
+        var hasNumber = /\d/.test(password.value); 
+
+
+        // Create an array to hold error messages
+        var errorMessages = [];
+
+        // Reset the error message
+        password_error.textContent = "";
+        password_error.style.color = "red";
+
+        if (password.value.length < 8) {
+        password_error.textContent = "Password must be at least 8 characters long.";
+        disableSubmitButton();
+       
+        } else if (!hasUpperCase) {
+        password_error.textContent = "Password must contain at least one uppercase letter.";
+        disableSubmitButton();
+       
+        } else if (!hasNumber) {
+        password_error.textContent = "Password must contain a number.";
+        disableSubmitButton();
+
+        } else if (!hasSpecialChar) {
+        password_error.textContent = "Password must contain special characters.";
+        disableSubmitButton();
+       
+        } else if (!hasNoSpace) {
+        password_error.textContent = "Password should not have spaces.";
+        disableSubmitButton();
+    
+        }  else {
+        password_error.textContent = "";
+        
+        }
+    }
+    
+
+    // Function to check if passwords match
+    function checkPasswordMatch() {
+        var password = document.getElementById("p_password");
+        var confirm_password = document.getElementById("confirm_password");
+        var password_error = document.getElementById("c-pass-validation-message");
+        var submit_button = document.getElementById("submit-button");
+
+        if (confirm_password.value !== "") {
+            if (confirm_password.value !== password.value) {
+                password_error.textContent = "Password and Confirm Password do not match.";
+                password_error.style.color = "red"; // Set the text color to red
+                disableSubmitButton();
+            } else {
+                password_error.textContent = ""; // Clear the error message if passwords match
+                password_error.style.color = ""; // Remove the text color style to reset it to the default color
+                enableSubmitButton();
+            }
+        } else {
+            password_error.textContent = ""; // Clear the error message if passwords match
+            
+        }
+    }
+
+    // Attach the validatePassword function to the password and confirm_password input fields
+    document.getElementById("p_password").addEventListener("input", validatePassword);
+    document.getElementById("confirm_password").addEventListener("input", checkPasswordMatch); 
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script> 
+    // Function to toggle password visibility for LOGIN
+    function togglePasswordVisibility(inputId, toggleId) {
+        var passwordInput = document.getElementById(inputId);
+        var toggleIcon = document.getElementById(toggleId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.remove("fa-eye-slash");
+            toggleIcon.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("fa-eye");
+            toggleIcon.classList.add("fa-eye-slash");
+        }
+    }
+
+    // Attach the togglePasswordVisibility function to the toggle buttons
+    document.getElementById("pass-toggle").addEventListener("click", function() {
+        togglePasswordVisibility("password", "pass-toggle");
+    });
+    // document.getElementById("confirm-pass-toggle").addEventListener("click", function() {
+    //     togglePasswordVisibility("confirm_password", "confirm-pass-toggle");
+    // });
+</script>
+
+<script> 
+    // Function to toggle password visibility for REGISTER
+    function reg_togglePasswordVisibility(inputId, toggleId) {
+        var passwordInput = document.getElementById(inputId);
+        var toggleIcon = document.getElementById(toggleId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.remove("fa-eye-slash");
+            toggleIcon.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("fa-eye");
+            toggleIcon.classList.add("fa-eye-slash");
+        }
+    }
+
+    // Attach the togglePasswordVisibility function to the toggle buttons
+    document.getElementById("p-toggle").addEventListener("click", function() {
+        reg_togglePasswordVisibility("p_password", "p-toggle");
+    });
+    document.getElementById("confirm-p-toggle").addEventListener("click", function() {
+        reg_togglePasswordVisibility("confirm_password", "confirm-p-toggle");
+    });
+</script>
+
+
+
+<!-- Javascript for locaiton API -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const cityList = document.getElementById('city');
+        fetch('https://psgc.gitlab.io/api/island-groups/luzon/cities')
+        .then(response => response.json())
+        .then(data => {
+        data.forEach(city => {
+            const option1 = document.createElement('option');
+            option1.value = city.name;
+            option1.text = city.name;
+            cityList.add(option1);
+        });
+        });
+
+        const regionList = document.getElementById('region');
+        fetch('https://psgc.gitlab.io/api/island-groups/luzon/regions')
+        .then(response => response.json())
+        .then(data => {
+        data.forEach(region => {
+            const option1 = document.createElement('option');
+            option1.value = region.name;
+            option1.text = region.name;
+            regionList.add(option1);
+        });
+        });
+
+    });
+</script>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+<script>
+    // Compare Modal
+    function openCompareModal(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#compareModalContainer').html(data);
+
+                // Show the modal
+                $('#compareModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+    // Quick view Modal
+    function openQuickViewModal(productId) {
+        // Use AJAX to fetch the modal content dynamically
+        $.ajax({
+            url: "{% url 'supermarket:quickview_modal' 0 %}".replace('0', productId),
+            type: "GET",
+            success: function (data) {
+                // Append the modal content to the modal container
+                $('#quickviewModalContainer').html(data);
+
+                // Show the modal
+                $('#quickviewModal').modal('show');
+            },
+            error: function () {
+                alert("Failed to load modal content.");
+            }
+        });
+
+    }
+
+    // ==========================================================================================
+    // COMPARE MODAL FOR THE HOME TABS
+
+    // // Compare Modal Canned Goods
+    // function openCompareModal_cd(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_cd').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal_cd' + productId).modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+    // // Compare Modal Water
+    // function openCompareModal_water(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_water').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal_water'+ productId).modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+
+    // // Compare Modal Milk
+    // function openCompareModal_milk(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_milk').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal' + productId).modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+
+    //  // Compare Modal Coffee
+    //  function openCompareModal_coffee(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_coffee').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal').modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+    // // Compare Modal Noodles
+    // function openCompareModal_noodles(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_noodles').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal').modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+
+    //  // Compare Modal Laundry
+    //  function openCompareModal_laundry(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_laundry').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal').modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+    // // Compare Modal Bread
+    // function openCompareModal_bread(productId) {
+    //     // Use AJAX to fetch the modal content dynamically
+    //     $.ajax({
+    //         url: "{% url 'supermarket:compare_modal' 0 %}".replace('0', productId),
+    //         type: "GET",
+    //         success: function (data) {
+    //             // Append the modal content to the modal container
+    //             $('#compareModalContainer_bread').html(data);
+
+    //             // Show the modal
+    //             $('#compareModal').modal('show');
+    //         },
+    //         error: function () {
+    //             alert("Failed to load modal content.");
+    //         }
+    //     });
+
+    // }
+
+
+    
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+
+<script>
+    // Function to change the dropdown button image
+    function changeDropdownImage(imageSrc) {
+        var dropdownButton = document.querySelector('.dropdown-button');
+        dropdownButton.src = imageSrc;
+        
+        // Store the selected image source in localStorage
+        localStorage.setItem('selectedSupermarketImage', imageSrc);
+    }
+
+    // Function to retrieve the selected image source from localStorage
+    function getSelectedSupermarketImage() {
+        return localStorage.getItem('selectedSupermarketImage');
+    }
+
+    // Attach a click event listener to the image
+    document.querySelector('.dropdown-button').addEventListener('click', function () {
+        // Find the associated dropdown menu
+        var dropdownMenu = document.querySelector('.dropdown-menu');
+        
+        // Toggle the dropdown menu's visibility by toggling the "show" class
+        if (dropdownMenu.classList.contains('show')) {
+            dropdownMenu.classList.remove('show');
+        } else {
+            dropdownMenu.classList.add('show');
+        }
+    });
+
+    function selectSupermarket(supermarket) {
+        // Change the dropdown button image based on the selected supermarket
+        if (supermarket === 'Puregold') {
+            changeDropdownImage("{% static 'icons/puregold_horizontal.png' %}");
+        } else if (supermarket === 'ShopMetro') {
+            changeDropdownImage("{% static 'icons/shopmetro_horizontal.png' %}");
+        } else if (supermarket === 'WalterMart') {
+            changeDropdownImage("{% static 'icons/waltermart_horizontal.png' %}");
+        }
+
+        const currentURL = new URL(window.location.href);
+    
+        // Update the URL with the selected supermarket
+        if (supermarket) {
+            currentURL.searchParams.set('supermarket', supermarket);
+        } else {
+            currentURL.searchParams.delete('supermarket');
+        }
+    
+        window.location.href = currentURL.toString();
+    }
+
+    // Check if a selected supermarket image is stored in localStorage and set it
+    var storedImage = getSelectedSupermarketImage();
+    if (storedImage) {
+        changeDropdownImage(storedImage);
+    }
+</script>
+
+
+<!-- CHARTSSSSSSS -->
+
+<script>
+    // Retrieve the price history data from the Django context as a JSON string
+    const formattedPriceHistoryData = JSON.parse('{{ formatted_price_history_json|escapejs }}');
+    
+    // Check if price history data is available
+    if (formattedPriceHistoryData.length > 0) {
+        // Log a message to the browser console
+        console.log('Formatted price history data is available:', formattedPriceHistoryData);
+    
+        // Extract the price and date data from the formatted price history
+        const prices = formattedPriceHistoryData.map(entry => parseFloat(entry.price.replace('₱', ''))); // Convert to a number
+        const dates = formattedPriceHistoryData.map(entry => entry.date_scraped);
+    
+        // Get the canvas element and create the chart
+        const ctx = document.getElementById('priceHistoryChart').getContext('2d');
+        const priceHistoryChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Price History',
+                    data: prices,
+                    borderColor: 'rgba(152, 0, 239, 0.8)', // Line color
+                    borderWidth: 2, // Line width
+                    fill: false, // Do not fill area under the line
+                }],
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month and Year',
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 10, // Limit the number of visible ticks
+                        },
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price',
+                        },
+                    },
+                },
+            },
+        });
+    } else {
+        // Log a message to the browser console indicating that no formatted price history data is available
+        console.log('No formatted price history data available.');
+    }
+</script>
+
+
+
+
+<!-- heatmap_fig_json -->
+<script>
+    // Load the heatmap figure from the context and parse it as JSON
+    var heatmapFig = JSON.parse('{{ heatmap_fig_json|escapejs }}');
+
+    // Render the heatmap
+    Plotly.newPlot('heatmap-plot', heatmapFig.data, heatmapFig.layout);
+</script>
+
+<!-- birthday_chart_json -->
+<script>
+    // Get the JSON data for the birthday distribution chart
+    var birthdayChartData = JSON.parse('{{ birthday_chart_json|safe|escapejs }}');
+  console.log('Parsed productData:', birthdayChartData);
+
+    
+    // Create the Plotly chart
+    Plotly.react('birthday-chart', birthdayChartData);
+</script>
+
+<!-- Price History of product -->
+<script>
+    var productData = JSON.parse('{{ product_data|safe|escapejs }}');
+  console.log('Parsed productData:', productData);
+  
+  var dates = [];
+  var prices = [];
+  var datasets = [];
+  var borderColors = [
+      'rgb(75, 192, 192)', 'rgb(192, 75, 75)', 'rgb(75, 75, 192)', 'rgb(192, 192, 75)', 'rgb(75, 192, 75)',
+      'rgb(100, 200, 200)', 'rgb(200, 100, 100)', 'rgb(100, 100, 200)', 'rgb(200, 200, 100)', 'rgb(100, 200, 100)',
+      'rgb(125, 208, 208)', 'rgb(208, 125, 125)', 'rgb(125, 125, 208)', 'rgb(208, 208, 125)', 'rgb(125, 208, 125)',
+      'rgb(150, 216, 216)', 'rgb(216, 150, 150)', 'rgb(150, 150, 216)', 'rgb(216, 216, 150)', 'rgb(150, 216, 150)',
+      'rgb(175, 224, 224)', 'rgb(224, 175, 175)', 'rgb(175, 175, 224)', 'rgb(224, 224, 175)', 'rgb(175, 224, 175)',
+      'rgb(200, 232, 232)', 'rgb(232, 200, 200)', 'rgb(200, 200, 232)', 'rgb(232, 232, 200)', 'rgb(200, 232, 200)'
+  ]; 
+  
+  // Concatenate data for all products into a single dataset
+  for (var i = 0; i < productData.length; i++) {
+      var product = productData[i];
+      var productDates = JSON.parse(product.dates_json);
+      var productPrices = JSON.parse(product.prices_json);
+  
+      dates = dates.concat(productDates);
+      prices = prices.concat(productPrices);
+      
+      datasets.push({
+          name: 'Price History of product ' + i, // Change this to a unique name for each product
+          x: productDates,
+          y: productPrices,
+          line: {
+              color: borderColors[i % borderColors.length]
+          },
+          type: 'scatter'
+      })
+  }
+  
+  Plotly.newPlot('priceHistoryChart', datasets, {
+      title: 'Price History',
+      xaxis: {
+          title: 'Date',
+          tickformat: '%b %d, %Y'
+      },
+      yaxis: {
+          title: 'Price (₱)'
+      }
+  });
+</script>
+
+
+<!-- male female -->
+<script>
+    // Retrieve the histogram data from the context
+
+    var histogramData = JSON.parse('{{ histogram_data_json|safe|escapejs }}');
+    console.log('Parsed histogramDataAGEEEEEE:', histogramData);
+
+    // Create a chart using Chart.js
+    var ctx = document.getElementById('ageHistogram').getContext('2d');
+    var ageHistogram = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: histogramData.age_labels,
+            datasets: [
+                {
+                    label: 'Male',
+                    backgroundColor: 'blue',
+                    data: histogramData.male_age_counts,
+                },
+                {
+                    label: 'Female',
+                    backgroundColor: 'pink',
+                    data: histogramData.female_age_counts,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        },
+    });
+</script>
+
+  
+
+  
+<!-- USERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR -->
+<script>
+    var priceDistributionData = JSON.parse('{{ price_distribution_data_json|escapejs }}');
+    console.log('Parsed priceDistributionData:', priceDistributionData);
+
+    var priceDistributionCtx = document.getElementById('priceDistributionHistogram').getContext('2d');
+    var priceDistributionChart;
+
+    // Function to update the Price Distribution Histogram based on the selected supermarket
+    function updatePriceDistributionHistogram(selectedSupermarket) {
+        console.log('Selected Supermarket (Price Distribution Histogram):', selectedSupermarket);
+        var selectedData = priceDistributionData[selectedSupermarket];
+        console.log('Selected Data (Price Distribution Histogram):', selectedData);
+
+        if (!selectedData) {
+            console.error('Data not found for selected supermarket (Price Distribution Histogram):', selectedSupermarket);
+            return; // Exit the function if data is not found
+        }
+
+        if (priceDistributionChart) {
+            priceDistributionChart.destroy(); // Destroy the existing chart to refresh it
+        }
+
+        // Define the background color and border color arrays
+        var backgroundColor = Array(selectedData.price_ranges.length).fill('rgba(255, 99, 132, 0.2)');
+        var borderColor = Array(selectedData.price_ranges.length).fill('rgba(255, 99, 132, 1)');
+
+        // Change the background color and border color for the middle bar
+        var middleIndex = Math.floor(selectedData.price_ranges.length / 2);
+        backgroundColor[middleIndex] = 'rgba(54, 162, 235, 0.2)';
+        borderColor[middleIndex] = 'rgba(54, 162, 235, 1)';
+
+        priceDistributionChart = new Chart(priceDistributionCtx, {
+            type: 'bar',
+            data: {
+                labels: selectedData.price_ranges,
+                datasets: [{
+                    label: 'Frequency',
+                    data: selectedData.frequency,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1,
+                    barPercentage: 1,
+                    categoryPercentage: 1,
+                    borderRadius: 5,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        offset: false,
+                        grid: {
+                            offset: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Price Ranges',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Frequency',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (items) => {
+                                if (!items.length) {
+                                    return '';
+                                }
+                                const item = items[0];
+                                const x = item.parsed.x;
+                                return `Price Range: ${x}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize the Price Distribution Histogram with all supermarkets
+    updatePriceDistributionHistogram('all');
+
+</script>
+
+<!-- JavaScript for Bar Chart -->
+<script>
+    // Parse the JSON data string directly into a JavaScript object
+    var barChartData = JSON.parse('{{ bar_chart_data_json|escapejs }}');
+    console.log('Parsed barChartData:', barChartData);
+    
+    var barChartCtx = document.getElementById('barChart').getContext('2d');
+    var barChart;
+    
+    // Function to update the bar chart based on the selected supermarket
+    function updateBarChart(selectedSupermarket) {
+        console.log('Selected Supermarket (Bar Chart):', selectedSupermarket);
+        var selectedData = barChartData[selectedSupermarket];
+        console.log('Selected Data (Bar Chart):', selectedData);
+
+        if (!selectedData) {
+            console.error('Data not found for selected supermarket (Bar Chart):', selectedSupermarket);
+            return; // Exit the function if data is not found
+        }
+
+        if (barChart) {
+            barChart.destroy(); // Destroy the existing chart to refresh it
+        }
+
+        barChart = new Chart(barChartCtx, {
+            type: 'bar',
+            data: {
+                labels: selectedData.categories,
+                datasets: [{
+                    label: 'Total Price',
+                    data: selectedData.total_prices,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        });
+    }
+
+    // Initialize the bar chart with all supermarkets
+    updateBarChart('all');
+
+    // Add an event listener to the dropdown to update the bar chart
+    var supermarketDropdown = document.getElementById('supermarketDropdown');
+    supermarketDropdown.addEventListener('change', function () {
+        var selectedSupermarket = this.value;
+        console.log('Dropdown Change (Bar Chart): Selected Supermarket:', selectedSupermarket);
+        updateBarChart(selectedSupermarket);
+        updateDoughnutChart(selectedSupermarket);
+        updateHorizontalBarChart(selectedSupermarket);
+        updatePriceDistributionHistogram(selectedSupermarket);
+        updateChartData(selectedSupermarket);
+
+
+    });
+</script>
+
+<!-- JavaScript for Horizontal Bar Chart -->
+<script>
+    // Parse the JSON data string directly into a JavaScript object
+    var horizontalBarChartData = JSON.parse('{{ horizontal_bar_chart_data_json|escapejs }}');
+    console.log('Parsed horizontalBarChartData:', horizontalBarChartData);
+
+    var horizontalBarChartCtx = document.getElementById('horizontalBarChart').getContext('2d');
+    var horizontalBarChart;
+
+    // Function to update the horizontal bar chart based on the selected supermarket
+    function updateHorizontalBarChart(selectedSupermarket) {
+        console.log('Selected Supermarket (Horizontal Bar Chart):', selectedSupermarket);
+        var selectedData = horizontalBarChartData[selectedSupermarket];
+        console.log('Selected Data (Horizontal Bar Chart):', selectedData);
+
+        if (!selectedData) {
+            console.error('Data not found for selected supermarket (Horizontal Bar Chart):', selectedSupermarket);
+            return; // Exit the function if data is not found
+        }
+
+        if (horizontalBarChart) {
+            horizontalBarChart.destroy(); // Destroy the existing chart to refresh it
+        }
+
+        horizontalBarChart = new Chart(horizontalBarChartCtx, {
+            type: 'bar',
+            data: {
+                labels: selectedData.categories,
+                datasets: [{
+                    label: 'Number of Products with Discount',
+                    data: selectedData.category_discount_counts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                }],
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        });
+    }
+
+    // Initialize the horizontal bar chart with all supermarkets
+    updateHorizontalBarChart('all');
+</script>
+
+<!-- JavaScript for Doughnut Chart -->
+<script>
+    // Parse the JSON data string directly into a JavaScript object
+    var doughnutChartData = JSON.parse('{{ doughnut_chart_data_json|escapejs }}');
+    console.log('Parsed doughnutChartData:', doughnutChartData);
+
+    var doughnutChartCtx = document.getElementById('doughnutChart').getContext('2d');
+    var doughnutChart;
+
+    // Function to update the doughnut chart based on the selected supermarket
+    function updateDoughnutChart(selectedSupermarket) {
+        console.log('Selected Supermarket (Doughnut Chart):', selectedSupermarket);
+        var selectedCategoryData = doughnutChartData[selectedSupermarket];
+        console.log('Selected Category Data (Doughnut Chart):', selectedCategoryData);
+
+        if (!selectedCategoryData) {
+            console.error('Data not found for selected supermarket (Doughnut Chart):', selectedSupermarket);
+            return; // Exit the function if data is not found
+        }
+
+        if (doughnutChart) {
+            doughnutChart.destroy(); // Destroy the existing chart to refresh it
+        }
+
+        var categories = selectedCategoryData.categories;
+        var categoryCounts = selectedCategoryData.category_counts;
+
+        doughnutChart = new Chart(doughnutChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: categories,
+                datasets: [{
+                    data: categoryCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        // Add more colors as needed
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+            },
+        });
+    }
+
+    // Initialize the doughnut chart with all supermarkets
+    updateDoughnutChart('all');
+</script>
+
+<!-- JavaScript for Pie Chart -->
+<script>
+        // Parse the JSON data string directly into a JavaScript object
+        var totalPricesData = JSON.parse('{{ total_prices_json|escapejs }}');
+        console.log('Parsed totalPricesData:', totalPricesData);
+
+        var pieChartCtx = document.getElementById('pieChart').getContext('2d');
+        var pieChart;
+
+        // Function to create and update the pie chart
+        function createPieChart(data) {
+            if (pieChart) {
+                pieChart.destroy(); // Destroy the existing chart to refresh it
+            }
+
+            pieChart = new Chart(pieChartCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        data: Object.values(data),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            // Add more colors as needed
+                        ],
+                    }],
+                },
+                options: {
+                    responsive: true,
+                },
+            });
+        }
+
+        // Initialize the pie chart with total prices data
+        createPieChart(totalPricesData);
+</script>
+
+<script>
+// Parse the JSON data string directly into a JavaScript object
+var priceStatsData = JSON.parse('{{ price_stats_json|escapejs }}');
+console.log('Parsed priceStatsData:', priceStatsData);
+
+// Get the data for the box plot
+var data = [];
+
+for (var supermarket in priceStatsData) {
+    if (priceStatsData.hasOwnProperty(supermarket)) {
+        var categories = Object.keys(priceStatsData[supermarket]);
+
+        for (var i = 0; i < categories.length; i++) {
+            var category = categories[i];
+            var categoryData = priceStatsData[supermarket][category];
+            var trace = {
+                x: [supermarket],
+                y: [categoryData.median_price],
+                type: 'box',
+                name: category,
+            };
+            data.push(trace);
+        }
+    }
+}
+
+// Define the layout of the box plot
+var layout = {
+    title: 'Price Fluctuation Box Plot',
+    xaxis: { title: 'Supermarket' },
+    yaxis: { title: 'Price' },
+};
+
+// Create the box plot
+Plotly.newPlot('box-plot', data, layout);
+</script>
+
+<script>
+// Parse the JSON data for the discounted vs. regular prices
+  var discountedVsRegularPricesData = JSON.parse('{{ discounted_vs_regular_prices_json|escapejs }}');
+
+  // Extract the supermarkets and categories from the data
+  var supermarkets = Object.keys(discountedVsRegularPricesData);
+  var categories = Object.keys(discountedVsRegularPricesData[supermarkets[0]]);
+
+  // Create a data structure for the chart
+  var chartData = {
+      labels: categories,
+      datasets: []
+  };
+
+  // Create datasets for regular and discounted prices
+  function updateChartData(selectedSupermarket) {
+      chartData.datasets = [];
+
+      supermarkets.forEach(function(supermarket) {
+          if (selectedSupermarket === 'all' || selectedSupermarket === supermarket) {
+              var regularPriceData = [];
+              var discountedPriceData = [];
+
+              categories.forEach(function(category) {
+                  var regularPriceSum = discountedVsRegularPricesData[supermarket][category]['regular_price_sum'];
+                  var discountedPriceSum = discountedVsRegularPricesData[supermarket][category]['discounted_price_sum'];
+
+                  regularPriceData.push(regularPriceSum);
+                  discountedPriceData.push(discountedPriceSum);
+              });
+
+              chartData.datasets.push({
+                  label: supermarket + ' Regular Price',
+                  data: regularPriceData,
+                  backgroundColor: 'rgba(255, 99, 132, 0.6)' // Customize the color
+              });
+
+              chartData.datasets.push({
+                  label: supermarket + ' Discounted Price',
+                  data: discountedPriceData,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)' // Customize the color
+              });
+          }
+      });
+// Update the chart
+if (myChart) {
+    myChart.destroy(); // Destroy the existing chart to refresh it
+}
+
+myChart = new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+        indexAxis: 'y',
+        elements: {
+            bar: {
+                borderWidth: 2,
+            }
+        },
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Discounted vs. Regular Prices'
+            }
+        }
+    }
+});
+}
+
+// Create the chart initially
+var ctx = document.getElementById('horizontalBarChart2').getContext('2d');
+var myChart;
+
+// Initialize the chart with "all" as the default option
+updateChartData('all');
+</script>
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<script>
+    function clearFilters() {
+        // Redirect to the current URL without any filters
+        window.location.href = window.location.pathname;
+    }
+</script>
+<script>
+    // Function to change the dropdown button image
+    function changeDropdownImage(imageSrc) {
+        var dropdownButton = document.querySelector('.dropdown-button');
+        dropdownButton.src = imageSrc;
+        
+        // Store the selected image source in localStorage
+        localStorage.setItem('selectedSupermarketImage', imageSrc);
+    }
+
+    // Function to retrieve the selected image source from localStorage
+    function getSelectedSupermarketImage() {
+        return localStorage.getItem('selectedSupermarketImage');
+    }
+
+    // Attach a click event listener to the image
+    document.querySelector('.dropdown-button').addEventListener('click', function () {
+        // Find the associated dropdown menu
+        var dropdownMenu = document.querySelector('.dropdown-menu');
+        
+        // Toggle the dropdown menu's visibility by toggling the "show" class
+        if (dropdownMenu.classList.contains('show')) {
+            dropdownMenu.classList.remove('show');
+        } else {
+            dropdownMenu.classList.add('show');
+        }
+    });
+
+    function selectSupermarket(supermarket) {
+        // Change the dropdown button image based on the selected supermarket
+        if (supermarket === 'Puregold') {
+            changeDropdownImage("{% static 'icons/puregold_horizontal.png' %}");
+        } else if (supermarket === 'ShopMetro') {
+            changeDropdownImage("{% static 'icons/shopmetro_horizontal.png' %}");
+        } else if (supermarket === 'WalterMart') {
+            changeDropdownImage("{% static 'icons/waltermart_horizontal.png' %}");
+        }
+
+        const currentURL = new URL(window.location.href);
+    
+        // Update the URL with the selected supermarket
+        if (supermarket) {
+            currentURL.searchParams.set('supermarket', supermarket);
+        } else {
+            currentURL.searchParams.delete('supermarket');
+        }
+    
+        window.location.href = currentURL.toString();
+    }
+
+    // Check if a selected supermarket image is stored in localStorage and set it
+    var storedImage = getSelectedSupermarketImage();
+    if (storedImage) {
+        changeDropdownImage(storedImage);
+    }
+</script>
+
+<script>
+    var supermarket = "{{ product.supermarket }}"; // Assuming you have the supermarket name in a JavaScript variable.
+    var staticBaseUrl = "{% static '' %}"; // Get the base URL for static files in Django.
+
+    // Get the image element by its ID.
+    var logoImage = document.getElementById("supermarket-logo");
+
+    // Set the image source based on the value of 'supermarket'.
+    if (supermarket === 'ShopMetro') {
+        logoImage.src = staticBaseUrl + "/icons/shopmetro.png";
+    } else if (supermarket === 'Puregold') {
+        logoImage.src = staticBaseUrl + "icons/puregold.png";
+    } else if (supermarket === 'Waltermart') {
+        logoImage.src = staticBaseUrl + "icons/waltermart.png";
+    } else {
+        // Handle the case where 'supermarket' is not one of the expected values.
+        console.error("Invalid supermarket name: " + supermarket);
+    }
+</script>
+
+
+
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+
+<!-- DAPAT DAW INCLUDED SA HEADER MISMO -->
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2jnPx44CEvp5JTozVnNthaAQ0mOXzhzc&libraries=geometry,places&callback=initMap"
+async defer></script>
+
+<script>
+var map;
+var infowindow;
+
+function getPlaceDetails(place) {
+    const userLatLng = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng());
+    const placeLatLng = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+    const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, placeLatLng);
+
+    var contentString = '<div style="width:500px;height:500px; display: flex; flex-direction: column;">' +
+        '<strong style="font-size: 24px; color: #8DC63F;">' + place.name + '</strong><br>' +
+        '<strong>Distance : ' + Math.round(distance) + ' Metres </strong><br>'; // Added a line to display distance from current location
+    if (place.photos) {
+        var firstPhotoUrl = place.photos[0].getUrl();
+        contentString += '<img src="' + firstPhotoUrl + '" alt="Place photo" style="max-width:100%;height:auto; border-radius: 10px;"><br>';
+    } else {
+        contentString += 'No photos available<br>';
+    }
+
+    contentString +=
+        '<strong style="font-weight: bold;">Address:</strong> ' + place.formatted_address + '<br>' +
+        '<strong style="font-weight: bold;">Business Status:</strong> ' + place.business_status + '<br>' +
+        '<strong style="font-weight: bold;">Rating:</strong> ' + place.rating + '<br>' +
+        '<strong style="font-weight: bold;">User Ratings:</strong> ' + place.user_ratings_total + '<br>';
+
+    var formattedWeekdays = formatWeekdayText(place.opening_hours);
+    contentString += '<div><strong style="font-weight: bold;">Hours:</strong>';
+    contentString += '<br>' + formattedWeekdays.join('<br>') + '</div>';
+
+    contentString += '</div>';
+
+    return contentString;
+}
+
+function formatWeekdayText(openingHours) {
+    var weekdays = openingHours.weekday_text;
+    var formattedWeekdays = [];
+
+    // Extract the day and time from the weekday_text
+    for (var i = 0; i < weekdays.length; i++) {
+        var parts = weekdays[i].split(' ');
+        var day = parts[0];
+        var timeRange = parts.slice(1).join(' ');
+
+        // Format time to include AM and PM
+        var formattedTime = formatTime(timeRange);
+
+        formattedWeekdays.push(day + ' ' + formattedTime);
+    }
+
+    // Move Sunday to the end
+    var sunday = formattedWeekdays.shift();
+    formattedWeekdays.push(sunday);
+
+    return formattedWeekdays;
+}
+
+// Function to format time with AM and PM
+function formatTime(rawTime) {
+    var [start, end] = rawTime.split('–').map(s => s.trim());
+    var [startHours, startMinutes] = start.split(':').map(Number);
+    var [endHours, endMinutes] = end.split(':').map(Number);
+    // Check for NaN values and set them to 0
+    if (isNaN(startHours) || isNaN(startMinutes) || isNaN(endHours) || isNaN(endMinutes)) {
+        startHours = 0;
+        startMinutes = 0;
+        endHours = 0;
+        endMinutes = 0;
+    }
+    var startAMPM = startHours >= 12 ? 'PM' : 'AM';
+    startHours = startHours % 12;
+    startHours = startHours ? startHours : 12; // Handle midnight (0:00 AM)
+    startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes;
+
+    var endAMPM = endHours >= 12 ? 'PM' : 'AM';
+    endHours = endHours % 12;
+    endHours = endHours ? endHours : 12; // Handle midnight (0:00 AM)
+    endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes;
+
+    return startHours + ':' + startMinutes + ' ' + startAMPM + ' – ' + endHours + ':' + endMinutes + ' ' + endAMPM;
+}
+
+function initMap() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (geoPosition) {
+            var { latitude, longitude } = geoPosition.coords;
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: latitude, lng: longitude },
+                zoom: 15
+            });
+
+            var markerPosition = { lat: latitude, lng: longitude };
+            var marker = new google.maps.Marker({
+                position: markerPosition,
+                map: map,
+                title: 'Your location'
+            });
+
+            infowindow = new google.maps.InfoWindow();
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: markerPosition,
+                radius: 5000,
+                type: ['supermarket']  // search for all supermarkets
+            }, processResults);
+        }, function () {
+            handleLocationError(true, infowindow, map.getCenter());
+        },
+            {
+                enableHighAccuracy: true
+            }
+        );
+    } else {
+        handleLocationError(false, infowindow, map.getCenter());
+    }
+}
+
+function handleLocationError(browserHasGeolocation, infowindow, pos) {
+    infowindow.setPosition(pos);
+    infowindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+    infowindow.open(map);
+}
+
+function processResults(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            var placeNameInLowerCase = results[i].name.toLowerCase();
+            if (placeNameInLowerCase.includes('puregold') ||
+                placeNameInLowerCase.includes('waltermart') ||
+                placeNameInLowerCase.includes('metro market! market!')) {
+                createMarker(results[i]);
+            }
+        }
+    }
+}
+function createMarker(placeInfo) {
+    var icon;
+    if (placeInfo.name.toLowerCase().includes('puregold')) {
+        icon = "{% static 'icons/P.png' %}";
+    } else if (placeInfo.name.toLowerCase().includes('waltermart')) {
+        icon = "{% static 'icons/W.png' %}";
+    } else if (placeInfo.name.toLowerCase().includes('metro market! market!')) {
+        icon = "{% static 'icons/M.png' %}";
+    }
+
+    var marker = new google.maps.Marker({
+        map: map,
+        position: placeInfo.geometry.location,
+        icon: icon
+    });
+
+    var service = new google.maps.places.PlacesService(map);
+
+    google.maps.event.addListener(marker, 'click', function () {
+        service.getDetails({ placeId: placeInfo.place_id }, function (place, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                infowindow.setContent(getPlaceDetails(place)); // Remove formattedWeekdays
+                infowindow.open(map, marker);
+            }
+        });
+    });
+}
+
+</script>
+
+<script>
+// Function to open the location modal
+function openLocationModal() {
+    var modal = new bootstrap.Modal(document.getElementById("location-modal"));
+    modal.show();
+    var backdrops = document.getElementsByClassName('modal-backdrop');
+    for (var i = 0; i < backdrops.length; i++) {
+        backdrops[i].remove();
+    }
+    // Initialize the map (You can put your map initialization code here)
+    initMap();
+}
+
+// Function to close the location modal
+function closeLocationModal() {
+    var modal = new bootstrap.Modal(document.getElementById("location-modal"));
+    modal.hide();
+    // Remove any existing modal-backdrop elements
+    var backdrops = document.getElementsByClassName('modal-backdrop');
+    for (var i = 0; i < backdrops.length; i++) {
+        backdrops[i].remove();
+    }
+}
+
+// Listen for button click to open the location modal
+var showLocationButton = document.getElementById("show-location-button");
+showLocationButton.addEventListener("click", openLocationModal);
+
+</script>
+
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%% END  MODAL  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Handle search form submission
+    $('.form-inline').on('submit', function (event) {
+        event.preventDefault();
+
+        var searchQuery = $('#search-bar').val().trim();
+
+        if (searchQuery) {
+            // Send an AJAX request to the search view
+            $.get('{% url "home:search_results" %}', { search_query: searchQuery }, function (data) {
+                var searchResults = data.search_results;
+
+                // Display search results in the results container
+                var resultsContainer = $('#search-results');
+                resultsContainer.empty();
+
+                if (searchResults.length > 0) {
+                    searchResults.forEach(function (product) {
+                        var productLink = $('<a>')
+                            .attr('href', '/product_detail/' + product.id)
+                            .text(product.title);
+                        var listItem = $('<li>').append(productLink);
+                        resultsContainer.append(listItem);
+                    });
+                } else {
+                    resultsContainer.append('<li>No matching products found.</li>');
+                }
+            });
+        } else {
+            // Clear search results when the search input is empty
+            $('#search-results').empty();
+        }
+    });
+
+    // Handle search form submission in the sidebar
+    $('.form-inline-sidebar').on('submit', function (event) {
+        event.preventDefault();
+
+        var searchQuery = $('#search-bar-sidebar').val().trim();
+
+        if (searchQuery) {
+            // Send an AJAX request to the search view
+           $.get('{% url "home:search_results" %}', { search_query: searchQuery }, function (data) {
+                var searchResults = data.search_results;
+
+                // Display search results in the results container
+                var resultsContainer = $('#search-results-sidebar');
+                resultsContainer.empty();
+
+                if (searchResults.length > 0) {
+                    searchResults.forEach(function (product) {
+                        var productLink = $('<a>')
+                            .attr('href', '/product_detail/' + product.id)
+                            .text(product.title);
+                        var listItem = $('<li>').append(productLink);
+                        resultsContainer.append(listItem);
+                    });
+                } else {
+                    resultsContainer.append('<li>No matching products found.</li>');
+                }
+            });
+        } else {
+            // Clear search results when the search input is empty
+            $('#search-results-container-sidebar').empty();
+        }
+    });
+});
+
+</script>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+<script src="{% static 'js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+<script src="{% static 'js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/plugins/slick.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.syotimer.min.js' %}"></script>
+<script src="{% static 'js/plugins/wow.js' %}"></script>
+<script src="{% static 'js/plugins/jquery-ui.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'js/plugins/magnific-popup.js' %}"></script>
+<script src="{% static 'js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'js/plugins/waypoints.js' %}"></script>
+<script src="{% static 'js/plugins/counterup.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'js/plugins/images-loaded.js' %}"></script>
+<script src="{% static 'js/plugins/isotope.js' %}"></script>
+<script src="{% static 'js/plugins/scrollup.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.vticker-min.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.theia.sticky.js' %}"></script>
+<script src="{% static 'js/plugins/jquery.elevatezoom.js' %}"></script>
+
+
+<!-- Template JS -->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/shop.js' %}"></script>
+
+
+

@@ -1,0 +1,810 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block content %} 
+
+<style>
+.center-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 160px;
+  display: flex;
+  border-radius: 20px;
+  align-items: center;
+  padding: 10px;
+
+ 
+}
+.center-toast .toast-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Optional, for horizontal centering */
+    font-size: 18px;
+}
+.warning{
+    align-items: center;
+   height: 70px; 
+   width: 70px;
+}
+</style>
+
+
+<script>
+    var csrftoken = getCookie('csrftoken');  // Get the CSRF token
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> <a href="">{{ product.supermarket }}</a>
+                <span></span> <a href="">{{ product.category }}</a>
+                <span></span> {{ product.brand }}
+            </div>
+        </div>
+    </div>
+    <div class="container mb-30">
+        <div class="row">
+            <div class="col-xl-11 col-lg-12 m-auto">
+                <div class="row flex-row-reverse">
+                    <div class="col-xl-9">
+                        <div class="product-detail accordion-detail">
+                            <div class="row mb-50 mt-30">
+                                <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                                    <div class="detail-gallery">
+                                        <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                        <!-- MAIN SLIDES -->
+                                        <div class="product-image-slider">
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.image }}" alt="{{ product.title }}">
+                                            </figure>
+                                            <!-- <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-1.jpg" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-3.jpg" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-4.jpg" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-5.jpg" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-6.jpg" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="assets/imgs/shop/product-16-7.jpg" alt="product image">
+                                            </figure> -->
+                                        </div>
+                                        <!-- THUMBNAILS -->
+                                        <!-- <div class="slider-nav-thumbnails">
+                                            <div><img src="assets/imgs/shop/thumbnail-3.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-4.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-5.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-6.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-7.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-8.jpg" alt="product image"></div>
+                                            <div><img src="assets/imgs/shop/thumbnail-9.jpg" alt="product image"></div>
+                                        </div> -->
+                                    </div>
+                                    <!-- End Gallery -->
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="detail-info pr-30 pl-30">
+                                        <!-- <span class="stock-status out-stock">
+                                            Sale Off
+                                        </span>  ALISIN KAPAG DI NAMAN NEED -->
+                                        <h2 class="title-detail">{{ product.title }}</h2>
+                                        <div class="clearfix product-price-cover">
+                                            <div class="product-price primary-color float-left">
+                                                <span class="current-price text-brand">{{ product.original_price }}</span>
+                                                <span>
+                                                    <span class="old-price font-md ml-15">{{ product.discounted_price }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="short-desc mb-30">
+                                            <p class="font-lg">{{ product.description }}</p>
+                                        </div>
+                                        <div class="detail-extralink mb-50">
+                                            <div class="product-extra-link2">
+                                                <button onclick="window.location.href='{{ product.url }}'"
+                                                    class="button button-add-to-cart">
+                                                    <i class="fi-rs-shopping-cart"></i>Visit Store
+                                                </button>
+                                                <button onclick="addToFavorites('{{ product.id }}')" class="button button-add-to-favorites" id="add-to-favorites-button">
+                                                    <i class="fi-rs-heart"></i>Add to Favorites
+                                                </button>
+                                                
+                                                <br>
+
+                                                <div class="toast center-toast" id="success-toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+                                                    <div class="toast-body">
+                                                        <div class="toast-content">
+                                                            <img class="toast-image" src="{% static 'icons/success.png' %}">
+                                                            <div id="toast-message"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="toast-body" id="toast-message"></div>
+                                                </div>
+                                                
+                                                <div class="toast center-toast" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+                                                    <div class="toast-body">
+                                                        <div class="toast-content">
+                                                            <img class="toast-image" src="{% static 'icons/warning2.png' %}">
+                                                            <div id="error-toast-message"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+
+                                                <!-- LIKE AND DISLIKE BUTTON HTML FORM -->
+                                                <!-- Add a span element to display the like and dislike counts -->
+                                                <br>
+                                                <div class="interaction-buttons">
+                                                    <span id="like-count">{{ like_count }}</span>
+                                                    <button type="button" style="border: none; background: none;" class="toggle-button {% if user_interaction and user_interaction.action == 'like' %}active{% endif %}" data-action="like" data-product-id="{{ product.id }}">
+                                                        <img style="height: 30px; width: 30px;" src="{% static 'icons/icon_like.png' %}">
+                                                    </button> &nbsp;&nbsp;&nbsp;
+                                                    <span id="dislike-count">{{ dislike_count }}</span>
+                                                    <button type="button" style="border: none; background: none;" class="toggle-button {% if user_interaction and user_interaction.action == 'dislike' %}active{% endif %}" data-action="dislike" data-product-id="{{ product.id }}">
+                                                        <img style="height: 30px; width: 30px;" src="{% static 'icons/icon_dislike.png' %}">
+                                                    </button> 
+                                                </div>
+
+                                                <style>
+                                                    .toggle-button i {
+                                                        border: none;
+                                                    }
+                                                </style>
+                                                <!-- END LIKE AND DISLIKE BUTTON HTML FORM -->
+                                               
+
+                                                <div class="modal" id="authorizationModal" tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog text-center" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Authorization Required</h5>
+                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>You need to log in to perform this action. Please log in or create an account.</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" id="closeModalButton" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+
+                                                <!-- <a aria-label="Compare" class="action-btn hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
+                                            </div> 
+                                        </div>
+                                        <!-- <div class="font-xs">
+                                            <ul class="mr-50 float-start">
+                                                <li class="mb-5">Type: <span class="text-brand">Organic</span></li>
+                                                <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2021</span></li>
+                                                <li>LIFE: <span class="text-brand">70 days</span></li>
+                                            </ul>
+                                            <ul class="float-start">
+                                                <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
+                                                <li class="mb-5">Tags: <a href="#" rel="tag">Snack</a>, <a href="#" rel="tag">Organic</a>, <a href="#" rel="tag">Brown</a> </li>
+                                                <li>Stock:<span class="in-stock text-brand ml-5">8 Items In Stock</span></li>
+                                            </ul>
+                                        </div>
+                                        ETO YUNG SA FURTHER DETAILS KASO DIBA WALANG IBANG DETAILS YUNG PER PRODUCT T_T -->
+                                    </div>
+                                    <!-- Detail Info -->
+                                </div>
+                            </div>
+                            {% if has_price_history %}
+                            <canvas id="priceHistoryChart" width="400" height="200"></canvas>
+                        {% else %}
+                            <p>No price history available for this product.</p>
+                        {% endif %}
+                        <!-- product_detail.html -->
+                        <!-- Your existing product_detail.html template code here... -->
+
+                        <h2>Similar Products</h2>
+                        <div class="similar-products product-info">
+                            <div class="row">
+                                {% if similar_products %}
+                                {% for similar_product in similar_products %}
+                                <div class="col-md-12 mb-4">
+                                    <div class="d-flex align-items-center pb-2 border-bottom border-gray">
+                                        <!-- Add conditional logic to display the supermarket logo -->
+                                        <div class="supermarket-logo mr-3">
+                                            {% if similar_product.supermarket == "WalterMart" %}
+                                            <img src="{% static '/icons/small_waltermart.png' %}" alt="WalterMart Logo" style="width: 90px; height: 55px;">
+                                            {% elif similar_product.supermarket == "Puregold" %}
+                                            <img src="{% static '/icons/small_puregold.png' %}" alt="Puregold Logo" style="width: 80px; height: 60px;">
+                                            {% elif similar_product.supermarket == "ShopMetro" %}
+                                            <img src="{% static '/icons/small_shopmetro.png' %}" alt="ShopMetro Logo" style="width: 80px; height: 60px;">
+                                            {% endif %}
+                                        </div>
+                        
+                                        <!-- Product Image (cropped in a circle) -->
+                                        <div class="rounded-circle overflow-hidden mr-3" style="width: 60px; height: 60px;">
+                                            <img src="{{ product.image }}" alt="{{ product.title }}" class="w-100 h-100">
+                                        </div>
+                        
+                                        <div class="mr-3">
+                                            <p>{{ similar_product.title }}</p>
+                                        </div>
+                                        <div class="mr-3 ml-auto">
+                                            <h5 class="current-price text-brand">{{ similar_product.original_price }}</h5>
+                                        </div>
+                                        <div class="ml-auto">                                                
+                                            <a href="{{ similar_product.url }}">
+                                                <img src="{% static '/imgs/theme/link.png' %}" alt="Go to Link" style="width: 20px; height: 20px;">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="col-md-12">
+                                    <p>No similar products available from other supermarkets.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+  
+                            <div class="product-info">
+                                <div class="tab-style3">
+                                    <ul class="nav nav-tabs text-uppercase">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="Additional-info-tab" data-bs-toggle="tab"
+                                                href="#Additional-info">Additional info</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Comments ({{ comment_count }})</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content shop_info_tab entry-main-content">
+                                        <div class="tab-pane fade show active" id="Additional-info">
+                                            <table class="font-md">
+                                                <tbody>
+                                                    <tr class="stand-up">
+                                                        <th>Product ID</th>
+                                                        <td>
+                                                            <p>{{ product.id }}</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="folded-wo-wheels">
+                                                        <th>Supermarket</th>
+                                                        <td>
+                                                            <p>{{ product.supermarket }}</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="folded-w-wheels">
+                                                        <th>Product Category</th>
+                                                        <td>
+                                                            <p>{{ product.category }}</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="door-pass-through">
+                                                        <th>Brand</th>
+                                                        <td>
+                                                            <p>{{ product.brand }}</p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane fade" id="Reviews">
+                                            <!--Comments-->
+                                            <div class="comments-area">
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <h4 class="mb-30">Customer Comments</h4>
+
+                                                        {% for comment in comments %}
+                                                            <div class="comment-list">
+                                                                <div
+                                                                    class="single-comment justify-content-between d-flex mb-30">
+                                                                    <div class="user justify-content-between d-flex">
+                                                                        <div class="thumb text-center">
+                                                                            <a href="#" class="font-heading text-brand">{{ comment.user_name }}</a>
+                                                                        </div>
+                                                                        <div class="desc">
+                                                                            <div
+                                                                                class="d-flex justify-content-between mb-10">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <span
+                                                                                        class="font-xs text-muted">{{ comment.timestamp }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <p class="mb-10">{{ comment.text }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% empty %}
+                                                            <li>No comments yet.</li>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <h4 class="mb-30">Customer reviews</h4>
+                                                        <div class="d-flex mb-30">
+                                                            <i class="fa-solid fa-thumbs-up" style="color: #3bb77e;margin-right: 10px;"></i>
+                                                            <h6 id="total-likes-over-interactions"></h6>
+                                                        </div>
+
+                                                        <div class="progress">
+                                                            <span>Like</span>
+                                                            <div class="progress-bar" id="like-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><p id="like-bar" style="color: white;"></p></div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>Dislike</span>
+                                                            <div class="progress-bar" id="dislike-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><p id="dislike-bar" style="color: white;"></p></div>
+                                                        </div> <br>
+                                                        <p>Most Interactions: <span id="more-interactions">Like/Dislike</span></p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Comment form -->
+                                            {% if user.is_authenticated %}
+                                                {% if not user_has_commented %}
+                                                    <!-- Comment form -->
+                                                    <div class="comment-form">
+                                                        <h4 class="mb-15">Add a Comment</h4>
+                                                        <form class="form-contact comment_form" action="{% url 'home:add_comment' product.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <textarea class="form-control w-100" name="comment_text" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button type="submit" class="button button-contactForm">Submit Review</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-60">
+                                <div class="col-12">
+                                    <h2 class="section-title style-1 mb-30">FROM THE SAME SHOP</h2>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row related-products">
+                                        <!-- <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap hover-up">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="shop-product-right.html" tabindex="0">
+                                                            <img class="default-img" src="assets/imgs/shop/product-2-1.jpg" alt="">
+                                                            <img class="hover-img" src="assets/imgs/shop/product-2-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Hot</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Ulstra Bass Headphone</a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span>$238.85 </span>
+                                                        <span class="old-price">$245.8</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap hover-up">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="shop-product-right.html" tabindex="0">
+                                                            <img class="default-img" src="assets/imgs/shop/product-3-1.jpg" alt="">
+                                                            <img class="hover-img" src="assets/imgs/shop/product-4-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="sale">-12%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Smart Bluetooth Speaker</a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span>$138.85 </span>
+                                                        <span class="old-price">$145.8</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap hover-up">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="shop-product-right.html" tabindex="0">
+                                                            <img class="default-img" src="assets/imgs/shop/product-4-1.jpg" alt="">
+                                                            <img class="hover-img" src="assets/imgs/shop/product-4-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="new">New</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <h2><a href="shop-product-right.html" tabindex="0">HomeSpeak 12UEA Goole</a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span>$738.85 </span>
+                                                        <span class="old-price">$1245.8</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-12 col-sm-6 d-lg-block d-none">
+                                            <div class="product-cart-wrap hover-up mb-0">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="shop-product-right.html" tabindex="0">
+                                                            <img class="default-img" src="assets/imgs/shop/product-5-1.jpg" alt="">
+                                                            <img class="hover-img" src="assets/imgs/shop/product-3-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Hot</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <h2><a href="shop-product-right.html" tabindex="0">Dadua Camera 4K 2021EF</a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span>$89.8 </span>
+                                                        <span class="old-price">$98.8</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 primary-sidebar sticky-sidebar mt-30">
+                        <div class="sidebar-widget widget-category-2 mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                            <!-- <ul>
+                                <li><a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-1.svg" alt="">Milks & Dairies</a><span class="count">30</span></li>
+                                <li><a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-2.svg" alt="">Clothing</a><span class="count">35</span></li>
+                                <li><a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-3.svg" alt="">Pet Foods </a><span class="count">42</span></li>
+                                <li><a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-4.svg" alt="">Baking material</a><span class="count">68</span></li>
+                                <li><a href="shop-grid-right.html"> <img src="assets/imgs/theme/icons/category-5.svg" alt="">Fresh Fruit</a><span class="count">87</span></li>
+                            </ul> -->
+                        </div>
+                        <!-- Fillter By Price -->
+                        <!-- <div class="sidebar-widget price_range range mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Fill by price</h5>
+                            <div class="price-filter">
+                                <div class="price-filter-inner">
+                                    <div id="slider-range"></div>
+                                    <div class="price_slider_amount">
+                                        <div class="label-input">
+                                            <span>Range:</span><input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group">
+                                <div class="list-group-item mb-10 mt-10">
+                                    <label class="fw-900">Color</label>
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
+                                        <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
+                                        <label class="form-check-label" for="exampleCheckbox2"><span>Green (78)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="">
+                                        <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
+                                    </div>
+                                    <label class="fw-900 mt-15">Item Condition</label>
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
+                                        <label class="form-check-label" for="exampleCheckbox11"><span>New (1506)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21" value="">
+                                        <label class="form-check-label" for="exampleCheckbox21"><span>Refurbished (27)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31" value="">
+                                        <label class="form-check-label" for="exampleCheckbox31"><span>Used (45)</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
+                        </div>
+                    
+                        FEELING KO NAMAN DI NEED ANG FILTER BY PRICE SA PRODUCT DETAILS-->
+                        <!-- Product sidebar Widget -->
+                        <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Supermarkets</h5>
+                            <!-- <div class="single-post clearfix">
+                                <div class="image">
+                                    <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#">
+                                </div>
+                                <div class="content pt-10">
+                                    <h5><a href="shop-product-detail.html">Chen Cardigan</a></h5>
+                                    <p class="price mb-0 mt-5">$99.50</p>
+                                    <div class="product-rate">
+                                        <div class="product-rating" style="width:90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-post clearfix">
+                                <div class="image">
+                                    <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#">
+                                </div>
+                                <div class="content pt-10">
+                                    <h6><a href="shop-product-detail.html">Chen Sweater</a></h6>
+                                    <p class="price mb-0 mt-5">$89.50</p>
+                                    <div class="product-rate">
+                                        <div class="product-rating" style="width:80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-post clearfix">
+                                <div class="image">
+                                    <img src="assets/imgs/shop/thumbnail-5.jpg" alt="#">
+                                </div>
+                                <div class="content pt-10">
+                                    <h6><a href="shop-product-detail.html">Colorful Jacket</a></h6>
+                                    <p class="price mb-0 mt-5">$25</p>
+                                    <div class="product-rate">
+                                        <div class="product-rating" style="width:60%"></div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    var csrf_token = "{{ csrf_token }}";
+
+    var userIsAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+
+    // Add this code to your JavaScript file (e.g., scripts.js)
+    $(".toggle-button").on("click", function() {
+        const button = $(this); // Store a reference to the clicked button
+        const product_id = button.data("product-id");
+        const action = button.data("action");
+
+        if (!userIsAuthenticated) {
+        // Show the authorization modal
+        $("#authorizationModal").modal("show");
+        return;
+        }
+        
+        // Add this code to your JavaScript file (e.g., scripts.js)
+        $("#closeModalButton").on("click", function() {
+            $("#authorizationModal").modal("hide");
+        });
+        
+        // Debugging: Log the value of product_id to the console
+        console.log("Product ID:", product_id);
+
+        // Include the CSRF token in the request headers
+        const headers = {
+            "X-CSRFToken": csrf_token
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/toggle-like-dislike/",  // Update this URL as needed
+            headers: headers,
+            data: {
+                product_id: product_id,
+                action: action
+            },
+            success: function(data) {
+                if (data.result === 'added') {
+                    // Update the UI to show the button as active
+                    button.addClass("active");
+                    window.location.reload();
+                } else if (data.result === 'removed' || data.result === 'updated') {
+                    // Update the UI to remove the active state
+                    button.removeClass("active");
+                    window.location.reload();
+                }
+
+                // Update the like and dislike counts in the UI
+                $("#like-count").text(data.like_count);
+                $("#dislike-count").text(data.dislike_count);
+            }
+        });
+    });
+</script>
+
+
+<script>
+    function addToFavorites(productId) {
+
+        if (!userIsAuthenticated) {
+            // Show the authorization modal
+            $("#authorizationModal").modal("show");
+            return;
+        }
+        // Make an AJAX request to add the product to favorites
+        $.ajax({
+            url: `/add-to-favorites/${productId}/`,
+            type: 'POST',
+            data: { product_id: productId },
+            headers: { 'X-CSRFToken': csrf_token },
+            success: function(response) {
+                 // Add this line to log the response to the console
+                console.log(response);
+                
+                if (response.status === 'success') {
+                showSuccessToast(response.message);
+                } else {
+                showErrorToast(response.message);
+                }
+                   
+            },
+            error: function(xhr) {
+                // Show error toast for any other errors
+                showErrorToast('Error: ' + xhr.responseText);
+            }
+        }); 
+    } 
+
+    function showSuccessToast(message) {
+        $("#toast-message").text(message);
+        $("#success-toast").toast('show');
+    }
+
+    function showErrorToast(message) {
+        $("#error-toast-message").text(message);
+        $("#error-toast").toast('show');
+    }
+</script>
+
+<!-- 
+<script>
+    const likeButtons = document.querySelectorAll('.toggle-button[data-action="like"]');
+    const dislikeButtons = document.querySelectorAll('.toggle-button[data-action="dislike"]');
+    const authModal = document.getElementById('authModal');
+    const closeModalButton = document.getElementById('closeModal');
+  
+    likeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        if (!{{ user.is_authenticated }}) {  // Check if the user is authenticated
+          authModal.style.display = 'block';  // Display the modal
+        } else {
+          // Handle the like action
+          // You may need to add code here to send an AJAX request to your Django view
+        }
+      });
+    });
+  
+    dislikeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        if (!{{ user.is_authenticated }}) {  // Check if the user is authenticated
+          authModal.style.display = 'block';  // Display the modal
+        } else {
+            
+          // Handle the dislike action
+          // You may need to add code here to send an AJAX request to your Django view
+        }
+      });
+    });
+  
+    closeModalButton.addEventListener('click', function() {
+      authModal.style.display = 'none';  // Close the modal when the "Close" button is clicked
+    });
+  
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', function(event) {
+      if (event.target === authModal) {
+        authModal.style.display = 'none';
+      }
+    });
+  </script> -->
+
+
+
+
+
+<script>
+    // Sample data for like and dislike counts
+    var totalLikes = "{{ like_count }}";
+    var totalDislikes = "{{ dislike_count }}";
+
+    // Calculate percentages
+    var totalInteractions = totalLikes + totalDislikes;
+    var likePercentage = (totalLikes / totalInteractions) * 100;
+    var dislikePercentage = (totalDislikes / totalInteractions) * 100;
+
+    // Determine which has more interactions
+    var moreInteractions = totalLikes > totalDislikes ? 'Like' : 'Dislike';
+
+    // Display the counts and percentages
+    document.getElementById('total-likes-over-interactions').textContent = totalLikes + ' Likes out of ' + totalInteractions + ' User Interactions';
+    document.getElementById('like-progress-bar').style.width = likePercentage + '%';
+    document.getElementById('dislike-progress-bar').style.width = dislikePercentage + '%';
+    document.getElementById('like-bar').textContent = likePercentage + '%';
+    document.getElementById('dislike-bar').textContent = dislikePercentage + '%';
+    document.getElementById('more-interactions').textContent = moreInteractions;
+</script>
+
+
+{% endblock %}

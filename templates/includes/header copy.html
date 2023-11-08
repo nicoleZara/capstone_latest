@@ -1,0 +1,770 @@
+{% load static %}
+
+<header class="header-area header-style-1 header-height-2">
+    <!-- UPEER HEADER -->
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-xl-12 col-lg-4">
+                    <div class="text-center">
+                        <div id="news-flash" class="d-inline-block">
+                            <ul>
+                                <li>Hassle free way of Coparing Products!</li>
+                                <li>Puregold, Waltermart, Metro Mrket! Market!</li>
+                                <li>Discover Discounts and Prices from Different Supermarkets!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF UPPER HEADER -->
+
+    <!-- MIDDLE HEADER W/ LOGO -->
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <!-- logo -->
+                <div class="logo-width-1">
+                    <a href="{% url 'home:home' %}"><img src="{% static 'imgs/theme/logovv.png' %}" alt="logo"
+                            style="width: 75px; height: 90px; margin-right: 30px;"></a>
+                </div>
+
+                <div class="header-right">
+                    <div class="search-style-2">
+                        <div class="container">
+                            <!-- search query -->
+                            <form action="{% url 'home:search_results' %}" method="GET" class="form-inline">
+                                <input type="search" id="search-bar" name="search_query"
+                                    placeholder="Search for items..." aria-label="Search">
+                            </form>
+
+                            <!-- search result -->
+                            <div id="search-results-container"
+                                style="position: absolute; max-height: 300px; max-width: 800px; overflow-y: auto; padding: 10px; margin-top: 10px; z-index: 999;background-color: white;">
+                                <div id="search-results">
+                                    {% if search_results %}
+                                    <ul class="list-group">
+                                        {% for product in search_results %}
+                                        <li class="list-group-item">
+                                            <div class="product-info">
+                                                <a href="{% url 'home:product_detail' product.id %}">
+                                                    <img src="{{ product.image_url }}" alt="{{ product.title }}"
+                                                        class="product-image">
+                                                    <span>{{ product.title }}</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- right side -->
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <!-- location button -->
+                            <div class="search-location">
+                                <form action="#">
+                                    <button id="show-location-button" class="button">Show Your Location</button>
+                                </form>
+                            </div>
+
+                            <!-- location modal -->
+                            <div class="modal fade location-modal" id="location-modal" tabindex="-1"
+                                aria-labelledby="quickViewModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="padding: 11px; max-width: 1000px;">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close" onclick="closeLocationModal()"></button>
+                                        <div class="modal-body">
+                                            <div class="title">
+                                                <h3>Supermarkets Near You</h3>
+                                            </div>
+                                            <div class="row" style=" text-align: center;">
+                                                <div class="col-4">
+                                                    <h4>Puregold <img src="{% static 'icons/P.png' %}"></h4>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h4>Waltermart <img src="{% static 'icons/W.png' %}"></h4>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h4>Metro Market! Market! <img src="{% static 'icons/M.png' %}">
+                                                    </h4>
+                                                </div>
+                                            </div>
+
+                                            <div id="map" style="height: 530px; width: 820px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- account -->
+                            <div class="header-action-icon-2">
+                                <a href="#">
+                                    <img class="svgInject" alt="Nest"
+                                        src="{% static 'imgs/theme/icons/icon-user.svg' %}">
+                                </a>
+                                <span class="lable ml-0">Account</span>
+                            </div>
+                            <!-- wishlist -->
+                            <div class="header-action-icon-2">
+                                <a href="#">
+                                    <img class="svgInject" alt="Nest"
+                                        src="{% static 'imgs/theme/icons/icon-heart.svg' %}">
+                                    <span class="pro-count blue">6</span>
+                                </a>
+                                <span class="lable">Wishlist</span>
+                            </div>
+                            <!-- cart w/ hover -->
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="#">
+                                    <img alt="Nest" src="{% static 'imgs/theme/icons/icon-cart.svg' %}">
+                                    <span class="pro-count blue">2</span>
+                                </a>
+                                <span class="lable">Cart</span>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <ul>
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="#"><img alt="Nest"
+                                                        src="{% static 'imgs/shop/thumbnail-3.jpg' %}"></a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Daisy Casual Bag</a></h4>
+                                                <h4><span>1 × </span>$800.00</h4>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="#"><img alt="Nest"
+                                                        src="{% static 'imgs/shop/thumbnail-2.jpg' %}"></a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Corduroy Shirts</a></h4>
+                                                <h4><span>1 × </span>$3200.00</h4>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-total">
+                                            <h4>Total <span>$4000.00</span></h4>
+                                        </div>
+                                        <div class="shopping-cart-button">
+                                            <a href="#" class="outline">View cart</a>
+                                            <a href="#">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF MIDDLE HEADER -->
+
+
+
+    <!-- LAST/THIRD HEADER - STICKY -->
+    <div class="header-bottom header-bottom-bg-color sticky-bar">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative">
+                <!-- hidden logo, appear only on small device -->
+                <div class="logo d-lg-none">
+                    <a href="{% url 'home:home' %}"><img src="{% static 'imgs/theme/logovv.png' %}" alt="logo"
+                            style="width: 75px; height: 90px; margin-right: 30px;"></a>
+                </div>
+
+                <!-- left side-->
+                <div class="header-nav d-none d-lg-flex">
+                    <!-- All categories -->
+                    <div class="main-categori-wrap d-none d-lg-block">
+                        <!-- all categories title -->
+                        <a class="categories-button-active " href="#">
+                            <span class="fi-rs-apps"></span> <span class="et">Browse</span> All Categories
+                            <i class="fi-rs-angle-down"></i>
+                        </a>
+                        <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                            <!-- drop down categories -->
+                            <div class="d-flex categori-dropdown-inner">
+                                <ul>
+                                    <li><a href="{% url 'home:category' category_name='Canned Goods' %}"> <img
+                                                src="{% static 'imgs/theme/icons/cannedfood.png' %}" alt="">Canned
+                                            Goods</a></li>
+                                    <li><a href="{% url 'home:category' category_name='Milk' %}"> <img
+                                                src="{% static 'imgs/theme/icons/milk.png' %}" alt="">Milk</a></li>
+                                    <li><a href="{% url 'home:category' category_name='Coffee' %}"> <img
+                                                src="{% static 'imgs/theme/icons/coffee.png' %}" alt="">Coffee</a>
+                                    </li>
+                                    <li><a href="{% url 'home:category' category_name='Bread' %}"> <img
+                                                src="{% static 'imgs/theme/icons/bread.png' %}" alt="">Bread</a>
+                                    </li>
+                                </ul>
+                                <ul class="end">
+                                    <li><a href="{% url 'home:category' category_name='Candle' %}"> <img
+                                                src="{% static 'imgs/theme/icons/water.png' %}" alt="">Water/Mineral</a>
+                                    </li>
+                                    <li><a href="{% url 'home:category' category_name='Water' %}"> <img
+                                                src="{% static 'imgs/theme/icons/vinegar.png' %}" alt="">Vinegar</a>
+                                    </li>
+                                    <li><a href="{% url 'home:category' category_name='Vinegar' %}"> <img
+                                                src="{% static 'imgs/theme/icons/soysauce.png' %}" alt="">Soy
+                                            Sauce</a></li>
+                                    <li><a href="{% url 'home:category' category_name='Soy Sauce' %}"> <img
+                                                src="{% static 'imgs/theme/icons/fishsauce.png' %}" alt="">Fish
+                                            Sauce</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="more_slide_open" style="display: none;">
+                                <div class="d-flex categori-dropdown-inner">
+                                    <div class="d-flex categori-dropdown-inner">
+                                        <ul>
+                                            <li><a href="{% url 'home:category' category_name='Fish Sauce' %}"> <img
+                                                        src="{% static 'imgs/theme/icons/candles.png' %}"
+                                                        alt="">Candles</a></li>
+                                            <li><a href="{% url 'home:category' category_name='Noodles' %}"> <img
+                                                        src="{% static 'imgs/theme/icons/noodle.png' %}"
+                                                        alt="">Noodles</a></li>
+                                        </ul>
+                                        <ul class="end">
+                                            <li><a href="{% url 'home:category' category_name='Laundry Aids' %}">
+                                                    <img src="{% static 'imgs/theme/icons/laundry.png' %}"
+                                                        alt="">Laundry Aids</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="more_categories"> <span class="icon"></span> <span class="heading-sm-1">Show
+                                    more...</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Menus -->
+                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                        <nav>
+                            <ul>
+                                <!-- hot deals page -->
+                                <li class="hot-deals"><img src="{% static 'imgs/theme/icons/icon-hot.svg' %}"
+                                        alt="hot deals"><a href="{% url 'home:discounts' %}">Hot Deals</a>
+                                </li>
+
+                                <!-- home page -->
+                                <li><a href="{% url 'home:home' %}">Home</a></li>
+
+
+                                <!-- supermarkets dropdown -->
+                                <li><a href="#">Supermarket <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="sub-menu">
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}">Puregold</a>
+                                        </li>
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}">ShopMetro</a>
+                                        </li>
+                                        <li><a
+                                                href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}">Walter
+                                                Mart</a></li>
+                                    </ul>
+                                </li>
+
+                                 <!-- show charts -->
+                                 <li><a href="{% url 'charts:chart1' %}">Charts</a></h2></li>
+
+                                <!-- list of pages  -->
+                                <li> <a href="#">Pages <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children"><a href="{% url 'home:home' %}">Home</a></li>
+                                        <li class="hot-deals"><a href="{% url 'home:discounts' %}">Hot Deals</a></li>
+                                     
+                                        <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}">Puregold</a></li>
+                                        <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}">ShopMetro</a></li>
+                                        <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}">WalterMart</a></li>
+                                        <li><a href="{% url 'charts:chart1' %}">Charts</a></li>
+
+                                        <li><a href="{% url 'auth_system:login-page' %}">Login</a></li>
+                                        <li><a href="{% url 'auth_system:register-page' %}">Register</a></li>
+                                        <li><a href="{% url 'auth_system:profile' %}">My Profile</a></li>
+                                        <li><a href="#">Likes</a></li>
+                                        <li><a href="#">Dislikes</a></li>
+
+                                        <li><a href="{% url 'home:about_us' %}">About Us</a></li>
+                                        <li><a href="{% url 'home:contact_us' %}">Contact</a></li>
+                                    </ul>
+                                </li>
+
+                                <!-- about page -->
+                                <li><a href="{% url 'home:about_us' %}">About</a></li>
+
+                                <!-- contact page -->
+                                <li><a href="{% url 'home:contact_us' %}">Contact</a></li>
+                               
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- right side -->
+                {% if user.is_authenticated %}
+                <div class="main-categori-wrap d-none d-lg-block">
+                    <a class="categories-button-active " href="#">
+                        <img class="svgInject" alt="PRofile" src="{% static 'imgs/theme/icons/icon-user-white.svg' %}"
+                            style="margin-right: 8%;">
+                        Account
+                        <i class="fi-rs-angle-down"></i>
+                    </a>
+                    <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                        <ul class="dropdown">
+                            <li><a href="{% url 'auth_system:profile' %}">Profile</li>
+                            
+                            <li><a href="{% url 'auth_system:display_favorites' %}">Shopping list</a></li>
+                            <hr>
+                            <li><a href="{% url 'auth_system:logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'auth_system:login-page' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'auth_system:register-page' %}">Register</a>
+                {% endif %}
+
+                <!--&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+
+                <!-- burger icon | appear only on small device -->
+                <div class="header-action-icon-2 d-block d-lg-none">
+                    <div class="burger-icon burger-icon-white">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+
+                <!-- cart contents in mobile version -->
+                <div class="header-action-right d-block d-lg-none">
+                    <div class="header-action-2">
+                        <div class="header-action-icon-2">
+                            <div class="mini-cart-icon">
+                                <img alt="Nest" id="show-location-button2"
+                                    src="{% static 'imgs/theme/icons/icon-location.svg' %}">
+                            </div>
+
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="#">
+                                    <img alt="Nest" src="{% static 'imgs/theme/icons/icon-cart.svg' %}">
+                                    <span class="pro-count white">2</span>
+                                </a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <ul>
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="#">
+                                                    <img alt="Nest" src="{% static 'imgs/shop/thumbnail-3.jpg' %}">
+                                                </a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Plain Striola Shirts</a></h4>
+                                                <h3><span>1 × </span>$800.00</h3>
+                                            </div>
+
+
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="#">Macbook Pro 2022</a></h4>
+                                                <h3><span>1 × </span>$3500.00</h3>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-total">
+                                            <h4>Total <span>$383.00</span></h4>
+                                        </div>
+                                        <div class="shopping-cart-button">
+                                            <a href="#">View cart</a>
+                                            <a href="#">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- END OF HEADER -->
+
+
+<!-- MONILE SIDE BAR -->
+<div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-top sticky-bar" style=" position: fixed; z-index: 100;">
+            <!-- necessipick logo -->
+            <div class="mobile-header-logo" style="margin-bottom: 20px;">
+                <a href="{% url 'home:home' %}"><img src="{% static 'imgs/theme/logovv.png' %}" alt="logo"
+                        style="width: 75px; height: 90px; margin-right: 30px;"></a>
+            </div>
+            <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                <button class="close-style search-close">
+                    <i class="icon-top"></i>
+                    <i class="icon-bottom"></i>
+                </button>
+            </div>
+            <div class="search-style-2" style="padding-bottom: 20px;">
+                <div class="container">
+                    <!-- side bar search bar -->
+                    <form action="{% url 'home:search_results' %}" method="GET" class="form-inline-sidebar">
+                        <input type="search" id="search-bar-sidebar" name="search_query" placeholder="Search for items…"
+                            aria-label="Search" style="padding-left: 20px;">
+                    </form>
+                    <!-- side bar search result -->
+                    <div id="search-results-container-sidebar"
+                        style="position: absolute; max-height: 300px; max-width: 800px; overflow-y: auto; padding: 10px; margin-top: 10px; z-index: 999;background-color: white;">
+                        <div id="search-results-sidebar">
+                            {% if search_results %}
+                            <ul class="list-group">
+                                {% for product in search_results %}
+                                <li class="list-group-item">
+                                    <div class="product-info">
+                                        <a href="{% url 'home:product_detail' product.id %}">
+                                            <img src="{{ product.image_url }}" alt="{{ product.title }}"
+                                                class="product-image">
+                                            <span>{{ product.title }}</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile-header-content-area" style="margin-top: 60%;">
+            <div class="mobile-menu-wrap mobile-header-border">
+                <!-- mobile menu start -->
+                <nav>
+                    <ul class="mobile-menu font-heading">
+                        <li class="menu-item-has-children">
+                            <a href="{% url 'home:home' %}">Home</a>
+                        </li>
+                        <li class="hot-deals"><img src="{% static 'imgs/theme/icons/icon-hot.svg' %}" alt="hot deals"><a
+                                href="{% url 'home:discounts' %}">Hot Deals</a></li>
+
+
+                        <li class="menu-item-has-children">
+                            <a href="#">Supermarket</a>
+                            <ul class="dropdown">
+                                <li><a
+                                        href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}">Puregold</a>
+                                </li>
+                                <li><a
+                                        href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}">ShopMetro</a>
+                                </li>
+                                <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}">Walter
+                                        Mart</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'home:about_us' %}">About</a></li>
+
+                        <li class="hot-deals"><img src="{% static 'imgs/theme/icons/icon-hot.svg' %}" alt="hot deals"><a
+                                href="{% url 'home:discounts' %}">Hot Deals</a></li>
+                        <li><a href="{% url 'charts:chart1' %}">Charts</a></li>
+
+                        <li class="menu-item-has-children"><a href="#">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="{% url 'home:home' %}">Home</a></li>
+
+                                <li><a
+                                        href="{% url 'supermarket:supermarket_page' supermarket_name='Puregold' %}">Puregold</a>
+                                </li>
+
+                                <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='ShopMetro' %}">Shop
+                                        Metro</a></li>
+
+                                <li><a href="{% url 'supermarket:supermarket_page' supermarket_name='WalterMart' %}">Walter
+                                        Mart</a></li>
+
+                                <li><a href="{% url 'charts:chart1' %}">Charts</a></li>
+
+                                <li><a href="{% url 'auth_system:login-page' %}">Login</a></li>
+                                <li><a href="{% url 'auth_system:register-page' %}">Register</a></li>
+
+                                <li><a href="{% url 'auth_system:profile' %}">My Profile</a></li>
+                                <li><a href="#">Likes</a></li>
+                                <li><a href="#">Dislikes</a></li>
+                                <li><a href="{% url 'home:about_us' %}">About Us</a></li>
+                                <li><a href="{% url 'home:contact_us' %}">Contact</a></li>
+
+
+                                <li><a href="#">Purchase Guide</a></li>
+
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'home:contact_us' %}">Contact</a></li>
+                    </ul>
+                </nav>
+                <!-- mobile menu end -->
+
+
+            </div>
+            <div class="mobile-header-info-wrap">
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-marker"></i> Our location</a>
+                </div>
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-user"></i>Log In / Sign Up</a>
+                </div>
+                <div class="single-mobile-header-info">
+                    <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789</a>
+                </div>
+            </div>
+            <div class="mobile-social-icon mb-50">
+                <h6 class="mb-15">Follow Us</h6>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-facebook-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-twitter-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-instagram-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-pinterest-white.svg' %}" alt=""></a>
+                <a href="#"><img src="{% static 'imgs/theme/icons/icon-youtube-white.svg' %}" alt=""></a>
+            </div>
+            <div class="site-copyright"> Copyright 2021 © NecessiPick. All rights reserved. Powered by NecessiPick.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+
+<!-- DAPAT DAW INCLUDED SA HEADER MISMO -->
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2jnPx44CEvp5JTozVnNthaAQ0mOXzhzc&libraries=geometry,places&callback=initMap"
+    async defer></script>
+
+<script>
+    var map;
+    var infowindow;
+
+    function getPlaceDetails(place) {
+        const userLatLng = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng());
+        const placeLatLng = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+        const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, placeLatLng);
+
+        var contentString = '<div style="width:500px;height:500px; display: flex; flex-direction: column;">' +
+            '<strong style="font-size: 24px; color: #8DC63F;">' + place.name + '</strong><br>' +
+            '<strong>Distance : ' + Math.round(distance) + ' Metres </strong><br>'; // Added a line to display distance from current location
+        if (place.photos) {
+            var firstPhotoUrl = place.photos[0].getUrl();
+            contentString += '<img src="' + firstPhotoUrl + '" alt="Place photo" style="max-width:100%;height:auto; border-radius: 10px;"><br>';
+        } else {
+            contentString += 'No photos available<br>';
+        }
+
+        contentString +=
+            '<strong style="font-weight: bold;">Address:</strong> ' + place.formatted_address + '<br>' +
+            '<strong style="font-weight: bold;">Business Status:</strong> ' + place.business_status + '<br>' +
+            '<strong style="font-weight: bold;">Rating:</strong> ' + place.rating + '<br>' +
+            '<strong style="font-weight: bold;">User Ratings:</strong> ' + place.user_ratings_total + '<br>';
+
+        var formattedWeekdays = formatWeekdayText(place.opening_hours);
+        contentString += '<div><strong style="font-weight: bold;">Hours:</strong>';
+        contentString += '<br>' + formattedWeekdays.join('<br>') + '</div>';
+
+        contentString += '</div>';
+
+        return contentString;
+    }
+
+    function formatWeekdayText(openingHours) {
+        var weekdays = openingHours.weekday_text;
+        var formattedWeekdays = [];
+
+        // Extract the day and time from the weekday_text
+        for (var i = 0; i < weekdays.length; i++) {
+            var parts = weekdays[i].split(' ');
+            var day = parts[0];
+            var timeRange = parts.slice(1).join(' ');
+
+            // Format time to include AM and PM
+            var formattedTime = formatTime(timeRange);
+
+            formattedWeekdays.push(day + ' ' + formattedTime);
+        }
+
+        // Move Sunday to the end
+        var sunday = formattedWeekdays.shift();
+        formattedWeekdays.push(sunday);
+
+        return formattedWeekdays;
+    }
+
+    // Function to format time with AM and PM
+    function formatTime(rawTime) {
+        var [start, end] = rawTime.split('–').map(s => s.trim());
+        var [startHours, startMinutes] = start.split(':').map(Number);
+        var [endHours, endMinutes] = end.split(':').map(Number);
+        // Check for NaN values and set them to 0
+        if (isNaN(startHours) || isNaN(startMinutes) || isNaN(endHours) || isNaN(endMinutes)) {
+            startHours = 0;
+            startMinutes = 0;
+            endHours = 0;
+            endMinutes = 0;
+        }
+        var startAMPM = startHours >= 12 ? 'PM' : 'AM';
+        startHours = startHours % 12;
+        startHours = startHours ? startHours : 12; // Handle midnight (0:00 AM)
+        startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes;
+
+        var endAMPM = endHours >= 12 ? 'PM' : 'AM';
+        endHours = endHours % 12;
+        endHours = endHours ? endHours : 12; // Handle midnight (0:00 AM)
+        endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes;
+
+        return startHours + ':' + startMinutes + ' ' + startAMPM + ' – ' + endHours + ':' + endMinutes + ' ' + endAMPM;
+    }
+
+    function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (geoPosition) {
+                var { latitude, longitude } = geoPosition.coords;
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: latitude, lng: longitude },
+                    zoom: 15
+                });
+
+                var markerPosition = { lat: latitude, lng: longitude };
+                var marker = new google.maps.Marker({
+                    position: markerPosition,
+                    map: map,
+                    title: 'Your location'
+                });
+
+                infowindow = new google.maps.InfoWindow();
+                var service = new google.maps.places.PlacesService(map);
+                service.nearbySearch({
+                    location: markerPosition,
+                    radius: 5000,
+                    type: ['supermarket']  // search for all supermarkets
+                }, processResults);
+            }, function () {
+                handleLocationError(true, infowindow, map.getCenter());
+            },
+                {
+                    enableHighAccuracy: true
+                }
+            );
+        } else {
+            handleLocationError(false, infowindow, map.getCenter());
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infowindow, pos) {
+        infowindow.setPosition(pos);
+        infowindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infowindow.open(map);
+    }
+
+    function processResults(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                var placeNameInLowerCase = results[i].name.toLowerCase();
+                if (placeNameInLowerCase.includes('puregold') ||
+                    placeNameInLowerCase.includes('waltermart') ||
+                    placeNameInLowerCase.includes('metro market! market!')) {
+                    createMarker(results[i]);
+                }
+            }
+        }
+    }
+    function createMarker(placeInfo) {
+        var icon;
+        if (placeInfo.name.toLowerCase().includes('puregold')) {
+            icon = "{% static 'icons/P.png' %}";
+        } else if (placeInfo.name.toLowerCase().includes('waltermart')) {
+            icon = "{% static 'icons/W.png' %}";
+        } else if (placeInfo.name.toLowerCase().includes('metro market! market!')) {
+            icon = "{% static 'icons/M.png' %}";
+        }
+
+        var marker = new google.maps.Marker({
+            map: map,
+            position: placeInfo.geometry.location,
+            icon: icon
+        });
+
+        var service = new google.maps.places.PlacesService(map);
+
+        google.maps.event.addListener(marker, 'click', function () {
+            service.getDetails({ placeId: placeInfo.place_id }, function (place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    infowindow.setContent(getPlaceDetails(place)); // Remove formattedWeekdays
+                    infowindow.open(map, marker);
+                }
+            });
+        });
+    }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Handle search form submission
+        $('.form-inline').on('submit', function (event) {
+            event.preventDefault();
+
+            var searchQuery = $('#search-bar').val().trim();
+
+            if (searchQuery) {
+                // Send an AJAX request to the search view
+                $.get('{% url "home:search_results" %}', { search_query: searchQuery }, function (data) {
+                    var searchResults = data.search_results;
+
+                    // Display search results in the results container
+                    var resultsContainer = $('#search-results');
+                    resultsContainer.empty();
+
+                    if (searchResults.length > 0) {
+                        searchResults.forEach(function (product) {
+                            var productLink = $('<a>')
+                                .attr('href', '/product_detail/' + product.id)
+                                .text(product.title);
+                            var listItem = $('<li>').append(productLink);
+                            resultsContainer.append(listItem);
+                        });
+                    } else {
+                        resultsContainer.append('<li>No matching products found.</li>');
+                    }
+                });
+            } else {
+                // Clear search results when the search input is empty
+                $('#search-results').empty();
+            }
+        });
+    });
+</script>

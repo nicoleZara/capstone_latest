@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'imgs/theme/favicon.svg' %}">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'css/mainc619.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <style>
+        /* Add CSS styles for the card */
+        .card {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .tab-header{
+            margin-bottom: 20px;
+            padding: 25px;
+            /* background-color: #3BB77E; */
+            background-color: #BCE3C9;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo-width-1">
+                    <a href=""><img src="{% static 'imgs/theme/logovv.png' %}" alt="logo"
+                            style="width: 75px; height: 90px; margin-right: 30px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="tab-header">
+            <h3 class="tab">Email Verification</h3>
+        </div>
+        <div class="tab-content">
+            <p>Please check your email for a verification link to verify your account. <br><br>
+                Make sure to also check your spam folder if you don't see the email in your inbox.
+            </p><br>
+                <a href="">Send email again</a>
+        </div>
+        
+    </div>
+</body>
+</html>
+

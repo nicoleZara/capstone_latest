@@ -1,0 +1,336 @@
+{% extends "includes/base.html" %} 
+{% load static %}
+
+
+
+{% block content %} 
+
+<!-- Slider start | Parang Jumbotron -->
+<section class="home-slider position-relative mb-30">
+    <div class="home-slide-cover">
+        <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+            <div class="single-hero-slider rectangle single-animation-wrap hero-slider-background">
+                <img src="{{ banner_image_url }}" alt="{{ supermarket_name }}" style="width: 100%; max-height: 80vh;">
+               <!-- banner content removed -->
+            </div>
+            <div class="single-hero-slider rectangle single-animation-wrap">
+                <img src="{{ banner_image_url }}" alt="{{ supermarket_name }}" style="width: 100%; max-height: 90vh;">
+                
+            </div>
+        </div>
+        <div class="slider-arrow hero-slider-1-arrow"></div>
+    </div>
+</section>
+<!--End slider-->
+
+
+
+ <!-- PRODUCTS -->
+<div class="container mb-30">
+    <div class="row">
+        <div class="col-lg-4-5">
+            
+            <!-- Popular products -->
+            <section class="product-tabs section-padding position-relative wow fadeIn animated">
+                
+                <!-- Introduce supermarket -->
+                <div class="section-title style-2">
+                    <h2>All Products in {{ supermarket_name }}</h2>
+                    <div class="sort-by-cover mr-10">
+                        <p>We found <strong class="text-brand"> {{ total_products }}</strong> items for you!</p>
+                    </div>
+                </div>
+                <!--End-->
+
+                <div class="tab-content wow fadeIn animated" id="myTabContent">
+                    
+                    <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                        <div class="row product-grid-4">
+
+                            <!-- Product cards -->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    {% for product in product_page %}
+                                    <div class="col-lg-1-5 col-md-4 col-6 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                             <!-- animation -->
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'home:product_detail' product.id %}">
+                                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                                    </a> 
+                                                </div>
+                                                <!-- Floating buttons -->
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                                    
+                                                    <!-- Functioning button -->
+                                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}" ><i class="fi-rs-eye"></i></a>
+                                                </div>
+
+                                               
+                                                <!-- MODAL -->
+                                                <!-- Compare modal-->
+                                                <div id="compareModalContainer">
+                                                </div>
+                                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+                                                
+                                                <!-- Quickview modal-->
+                                                <div id="quickviewModalContainer">
+                                                </div>
+                                                {% include 'supermarket/quickview_modal.html' with product=product product_id=product.id %}
+                                                <!-- END OF MODAL -->
+
+                                                {% if product.discounted_price %}
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="sale">Sale</span>
+                                                </div>
+                                                {% endif %}
+
+                                                
+                                                
+                                            </div>
+                                            <!-- product content -->
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html">{{ product.category }}</a>
+                                                </div>
+                                                <h2><a href="{% url 'home:product_detail' product.id %}">{{ product.title }}</a></h2>
+                                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                                    <label class="fw-900 mt-15">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                                    </label>
+                                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                                    </label>
+                                                </div>
+                                                <div class="product-supermarket">
+                                                    <a href="shop-grid-right.html">{{ product.supermarket }}</a>
+                                                </div>
+                                                
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        {% if product.discounted_price %}
+                                                            <span>{{ product.discounted_price }}</span>
+                                                            {% if product.original_price %}
+                                                                <span class="old-price">{{ product.original_price }}</span>
+                                                            {% else %}
+                                                                <span class="old-price"></span>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <span>{{ product.original_price }}</span>
+                                                            <span class="old-price"></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="add-cart">
+                                                        <a class="add" href=""><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                  
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!--end product cards-->
+
+                             <!-- Product pagination -->
+                            <div class="pagination-area mt-20 mb-20">
+                                <nav aria-label="Page navigation example">
+                                  <ul class="pagination justify-content-start">
+                                    {% if product_page.has_previous %}
+                                      <li class="page-item"><a class="page-link" href="?page=1{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">&laquo;</a></li>
+                                      <li class="page-item"><a class="page-link" href="?page={{ product_page.previous_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}"><</a></li>
+                                    {% endif %}
+
+                                    {% if product_page.number > 4 %}
+                                      <li class="page-item"><a class="page-link" href="?page=1{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">1</a></li>
+                                      <li class="page-item disabled"><a class="page-link">...</a></li>
+                                    {% endif %}
+
+                                    {% for i in product_page.paginator.page_range %}
+                                      {% if i == product_page.number %}
+                                        <li class="page-item active"><a class="page-link" href="?page={{ i }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">{{ i }}</a></li>
+                                      {% elif i > product_page.number|add:"-3"|default:0 and i <= product_page.number|add:"3" and i <= product_page.paginator.num_pages %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">{{ i }}</a></li>
+                                      {% endif %}
+                                    {% endfor %}
+                                    {% if product_page.number < product_page.paginator.num_pages|add:"-5" %}
+                                      <li class="page-item disabled"><a class="page-link">...</a></li>
+                                      <li class="page-item"><a class="page-link" href="?page={{ product_page.paginator.num_pages }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">{{ product_page.paginator.num_pages }}</a></li>
+                                    {% endif %}
+                                    
+                                    {% if product_page.has_next %}
+                                      <li class="page-item"><a class="page-link" href="?page={{ product_page.next_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">></a></li>
+                                      <li class="page-item"><a class="page-link" href="?page={{ product_page.paginator.num_pages }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">&raquo;</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </nav>
+                              </div>
+                            <!-- End of pagination -->
+                              
+ 
+                              
+                              
+                            
+
+
+
+                        </div>
+                        <!--End product-grid-4-->
+                    </div>
+                </div>
+               
+            </section>
+            <!--End Popular products-->
+
+
+            <!-- Deals of the day-->
+
+            <!--End Deals-->
+
+
+
+            <!-- Banners -->
+
+            <!--End banners-->
+        </div>
+        
+        <!-- SIDE BAR -->
+        <div class="col-lg-1-5 primary-sidebar sticky-sidebar pt-30">
+            <!-- Category -->
+            <div class="sidebar-widget widget-category-2 mb-30">
+                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                <ul>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Canned Goods' %}"> <img src="{% static 'imgs/theme/icons/cannedfood.png' %}" alt="">Canned Goods</a><span class="count">{{ category_counts.Canned_Goods }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Milk' %}"> <img src="{% static 'imgs/theme/icons/milk.png' %}" alt="">Milk</a><span class="count">{{ category_counts.Milk }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Coffee' %}"> <img src="{% static 'imgs/theme/icons/coffee.png' %}" alt="">Coffee</a><span class="count">{{ category_counts.Coffee }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Bread' %}"> <img src="{% static 'imgs/theme/icons/bread.png' %}" alt="">Bread</a><span class="count">{{ category_counts.Bread }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Candle' %}"> <img src="{% static 'imgs/theme/icons/candles.png' %}" alt="">Candles</a><span class="count">{{ category_counts.Candle }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Water' %}"> <img src="{% static 'imgs/theme/icons/water.png' %}" alt="">Water/Mineral</a><span class="count">{{ category_counts.Water }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Vinegar' %}"> <img src="{% static 'imgs/theme/icons/vinegar.png' %}" alt="">Vinegar</a><span class="count">{{ category_counts.Vinegar }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Soy Sauce' %}"> <img src="{% static 'imgs/theme/icons/soysauce.png' %}" alt="">Soy Sauce</a><span class="count">{{ category_counts.Soy_Sauce }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Fish Sauce' %}"> <img src="{% static 'imgs/theme/icons/fishsauce.png' %}" alt="">Fish Sauce</a><span class="count">{{ category_counts.Fish_Sauce }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Noodles' %}"> <img src="{% static 'imgs/theme/icons/noodle.png' %}" alt="">Noodles</a><span class="count">{{ category_counts.Noodles }}</span></li>
+                    <li> <a href="{% url 'supermarket:supermarket_category' supermarket_name=supermarket_name category_name='Laundry Aids' %}"> <img src="{% static 'imgs/theme/icons/laundry.png' %}" alt="">Laundry Aids</a><span class="count">{{ category_counts.Laundry_Aids }}</span></li>
+                </ul>
+            </div>
+
+            <!-- Fillter By Price -->
+            <div class="sidebar-widget price_range range mb-30">
+                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Fill by price</h5>
+                <div class="price-filter">
+                    <div class="price-filter-inner">
+                        <div id="slider-range"></div>
+                        <div class="price_slider_amount">
+                            <div class="label-input">
+                                <span>Range:</span><input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item mb-10 mt-10">
+                        <label class="fw-900">Color</label>
+                        <div class="custome-checkbox">
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
+                            <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
+                            <br>
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
+                            <label class="form-check-label" for="exampleCheckbox2"><span>Green (78)</span></label>
+                            <br>
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="">
+                            <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
+                        </div>
+                        <label class="fw-900 mt-15">Item Condition</label>
+                        <div class="custome-checkbox">
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
+                            <label class="form-check-label" for="exampleCheckbox11"><span>New (1506)</span></label>
+                            <br>
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21" value="">
+                            <label class="form-check-label" for="exampleCheckbox21"><span>Refurbished (27)</span></label>
+                            <br>
+                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31" value="">
+                            <label class="form-check-label" for="exampleCheckbox31"><span>Used (45)</span></label>
+                        </div>
+                    </div>
+                </div>
+                <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
+            </div>
+
+            <!-- New Product -->
+            <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
+                <h5 class="section-title style-1 mb-30 wow fadeIn animated">New products</h5>
+                <div class="single-post clearfix">
+                    <div class="image">
+                        <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#">
+                    </div>
+                    <div class="content pt-10">
+                        <h5><a href="shop-product-detail.html">Chen Cardigan</a></h5>
+                        <p class="price mb-0 mt-5">$99.50</p>
+                        <div class="product-rate">
+                            <div class="product-rating" style="width:90%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="single-post clearfix">
+                    <div class="image">
+                        <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#">
+                    </div>
+                    <div class="content pt-10">
+                        <h6><a href="shop-product-detail.html">Chen Sweater</a></h6>
+                        <p class="price mb-0 mt-5">$89.50</p>
+                        <div class="product-rate">
+                            <div class="product-rating" style="width:80%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="single-post clearfix">
+                    <div class="image">
+                        <img src="assets/imgs/shop/thumbnail-5.jpg" alt="#">
+                    </div>
+                    <div class="content pt-10">
+                        <h6><a href="shop-product-detail.html">Colorful Jacket</a></h6>
+                        <p class="price mb-0 mt-5">$25</p>
+                        <div class="product-rate">
+                            <div class="product-rating" style="width:60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-img wow fadeIn mb-lg-0 animated d-lg-block d-none">
+                <img src="assets/imgs/banner/banner-11.png" alt="">
+                <div class="banner-text">
+                    <span>Oganic</span>
+                    <h4>Save 17% <br> on <span class="text-brand">Oganic</span><br> Juice</h4>
+                </div>
+            </div>
+
+        </div>
+        <!-- End of Sidebar -->
+        
+    </div>
+</div>
+<!-- END -->
+
+
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <img src="assets/imgs/theme/loading.gif" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+

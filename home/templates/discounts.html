@@ -1,0 +1,151 @@
+{% extends "includes/base.html" %} 
+{% load static %}
+
+
+
+{% block content %} 
+
+    <main class="main">
+        
+        <section class="home-slider style-2 position-relative mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-12">
+                        <div class="home-slide-cover">
+                            <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                                <div class="single-hero-slider single-animation-wrap" style="background-image: url({% static 'imgs/slider/slider-3.png' %});">
+                                    <div class="slider-content">
+                                        <h1 class="display-2 mb-40">Supermarket<br> Big discount</h1>
+                                        <p class="mb-65">View great deals across different<br> supermarket!</p>
+                                       
+                                    </div>
+                                </div>
+                                <div class="single-hero-slider single-animation-wrap" style="background-image: url({% static 'imgs/slider/slider-3.png' %});">
+                                    <div class="slider-content">
+                                        <h1 class="display-2 mb-40">Supermarket <br> Steals & Deals</h1>
+                                        <p class="mb-65">Grab Unbelievable Savings!</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-arrow hero-slider-1-arrow"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 d-none d-xl-block">
+                        <div class="banner-img style-3 wow fadeIn animated animated animated">
+                            <div class="banner-text mt-50">
+                                <h2 class="mb-50">View <br> different <span class="text-brand"><br>product<br> categories</span></h2>
+                                <a href="shop-grid-right.html" class="btn btn-xs">View All <i class="fi-rs-arrow-small-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container mb-30">
+            <div class="row">
+                <div class="col-12">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product">
+                            <div class="sort-by-product-area" style="border: 1px solid #777; border-radius: 10px;">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li class="dropdown-item" onclick="selectSupermarket('Puregold')">
+                                        <img src="{% static 'icons/puregold_horizontal.png' %}" alt="Puregold">
+                                    </li>
+                                    <li class="dropdown-item" onclick="selectSupermarket('ShopMetro')">
+                                        <img src="{% static 'icons/shopmetro_horizontal.png' %}" alt="ShopMetro">
+                                    </li>
+                                    <li class="dropdown-item" onclick="selectSupermarket('WalterMart')">
+                                        <img src="{% static 'icons/waltermart_horizontal.png' %}" alt="WalterMart">
+                                    </li>
+                                </ul>
+                                <div>
+                                    <h5 class="ml-35">Filter by Supermarket:</h5>
+                                    <img src="{% static 'icons/supermarkets.png' %}" alt="Dropdown" class="dropdown-button"
+                                        id="dropdownMenuButton">
+                                    <i class="fi-rs-angle-small-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                    </div>
+                    <div class="row product-grid">
+                        {% for product in discounted_products %}
+                        <!-- Display products based on the selected supermarket -->
+                        {% if selected_supermarket == product.supermarket or not selected_supermarket %}
+                        <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap wow fadeIn animated mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                            <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn" href="#"><i class="fi-rs-shuffle"></i></a>
+                                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                    </div>
+                                    {% if product.discounted_price %}
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="sale">Sale</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">{{ product.category }}</a>
+                                    </div>
+                                    <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                    <div class="product-rate-cover">
+                                        <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+                                    </div>
+                                    <div class="product-card-bottom">
+                                        <div class="product-price">
+                                            {% if product.discounted_price %}
+                                                <span>{{ product.discounted_price }}</span>
+                                                {% if product.original_price %}
+                                                    <span class="old-price">{{ product.original_price }}</span>
+                                                {% else %}
+                                                    <span class="old-price"></span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span>{{ product.original_price }}</span>
+                                                <span class="old-price"></span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="add-cart">
+                                            <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>Add to Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <!--end product card-->
+                    </div>
+                     <!-- Product pagination -->
+                     <div class="pagination-area mt-20 mb-20">
+                        <nav aria-label="Page navigation example">
+                           <!-- Pagination links -->
+                           <ul class="pagination justify-content-start">
+                            {% for page_num in discounted_products.paginator.page_range %}
+                            <li class="page-item{% if page_num == discounted_products.number %} active{% endif %}">
+                                <a class="page-link"
+                                    href="?page={{ page_num }}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">{{ page_num }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        </nav>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
+{% endblock %}

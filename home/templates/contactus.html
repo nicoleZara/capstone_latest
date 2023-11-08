@@ -1,0 +1,75 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="page-content pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                <div class="row">
+                    <div class="col-lg-7 pr-30 d-none d-lg-block">
+                        <div class="image-slogan-container">
+                            <img class="border-radius-15" src="{% static 'imgs/page/contact.svg' %}" alt=""
+                                style="width: 800px;">
+                            <!-- Add your slogan here beside the image -->
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-8">
+                        <div class="login_wrap widget-taber-content background-white">
+                            <div class="padding_eight_all bg-white">
+                                <div class="heading_s1">
+                                    <h1 class="mb-5">Send us a message</h1>
+                                    <p class="mb-30">Got questions, comments, suggestion, or complains? <br>Submit a form now  
+                                    </p>
+                                </div>
+                                <form action="{% url 'home:contact_us' %}" method='POST'>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" required name="subject" placeholder="Subject">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" required name="name" placeholder="Your Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" required name="email" placeholder="Your Email Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea required name="message" placeholder="Type your message here..."></textarea>
+                                    </div>
+                                    
+                                   
+                                    {% if messages %}
+                                    <div class="">
+                                        <ul>
+                                            {% for message in messages %}
+                                                {% if message.tags == 'success' %}
+                                                    <div class="alert alert-success">
+                                                        {{ message }}
+                                                    </div>
+                                                {% elif message.tags == 'error' %}
+                                                    <div class="alert alert-danger">
+                                                        {{ message }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    <!-- send email -->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-heading btn-block hover-up"name="send">Send</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

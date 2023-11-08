@@ -1,0 +1,52 @@
+<!-- pdf_template.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Add your PDF styling here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Favorite Products</h1>
+    <h3>Total Selected Price: ₱{{ total_price }}</h3>
+    <table>
+        <tr>
+            <th>Puregold Total Selected Price: ₱{{ column_sums.puregold_sum }}</th>
+            <th>ShopMetro Total Selected Price: ₱{{ column_sums.shopmetro_sum }}</th>
+            <th>WalterMart Total Selected Price: ₱{{ column_sums.waltermart_sum }}</th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Puregold Price</th>
+            <th>ShopMetro Price</th>
+            <th>WalterMart Price</th>
+        </tr>
+        {% for batch_identifier, data in favorite_products.items %}
+        <tr>
+            <td>
+                <img src="{{ data.image }}" alt="{{ data.title }}" style="width: 100%;" /><br>
+                <div class="title-container">{{ data.title }}</div>
+            </td>
+            <td>₱{{ data.puregold_price }}</td>
+            <td>₱{{ data.shopmetro_price }}</td>
+            <td>₱{{ data.waltermart_price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

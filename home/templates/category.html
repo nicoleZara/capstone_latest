@@ -1,0 +1,352 @@
+{% extends "includes/base.html" %} 
+{% load static %}
+
+{% block content %} 
+
+    <main class="main">
+        <div class="page-header mt-30 mb-50">
+            <div class="container">
+                <div class="archive-header">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3">
+                            <h1 class="mb-15">{{category_name}}</h1>
+                            <div class="breadcrumb">
+                                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                                <span></span> Shop
+                                <span></span> Snack
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <section class="popular-categories section-padding">
+            <div class="container wow fadeIn animated">
+                <div class="section-title">
+                    <div class="title">
+                        <h3>Shop by Categories </h3>
+                        <a class="show-all" href="shop-grid-right.html">
+                            All Categories
+                            <i class="fi-rs-angle-right"></i>
+                        </a>
+                    </div>
+                    <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow" id="carausel-8-columns-arrows"></div>
+                </div>
+                <div class="carausel-8-columns-cover position-relative">
+                  
+                    <div class="carausel-8-columns" id="carausel-8-columns">
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Canned Goods' %}"><img src="{% static 'imgs/banner/Cannedgoods.png' %}" alt=""></a></a>
+                      </div>
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Milk' %}"><img src="{% static 'imgs/banner/Milk.png' %}" alt=""></a>
+                      </div>
+
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Bread' %}"><img src="{% static 'imgs/banner/Bread.png' %}" alt=""></a>
+                      </div>
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Coffee' %}"><img src="{% static 'imgs/banner/Coffee.png' %}" alt=""></a>
+                      </div>
+                      
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Noodles' %}"><img src="{% static 'imgs/banner/Noodles.png' %}" alt=""></a>
+                      </div>
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Fish Sauce' %}"><img src="{% static 'imgs/banner/Fishsauce.png' %}" alt=""></a>
+                      </div>
+                      
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Soy Sauce' %}"><img src="{% static 'imgs/banner/Soysauce.png' %}" alt=""></a>
+                      </div>
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Vinegar' %}"><img src="{% static 'imgs/banner/Vinegar.png' %}" alt=""></a>
+                      </div>
+                      
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Water' %}"><img src="{% static 'imgs/banner/Water.png' %}" alt=""></a>
+                      </div>
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Candle' %}"><img src="{% static 'imgs/banner/Candle.png' %}" alt=""></a>
+                      </div>
+                      
+                      <div class="column">
+                          <a href="{% url 'home:category' category_name='Canned Goods' %}"></a><img src="{% static 'imgs/banner/Laundryaids.png' %}" alt=""></a>
+                      </div>
+                      
+                </div>
+            </div>
+        </section>
+       <!--End category slider-->  
+     
+
+    <!--<div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown Button
+        </button>
+        <img src="{% static 'icons/dropdown_button.png' %}" alt="Dropdown" class="dropdown-button" id="dropdownMenuButton">
+
+        
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="dropdown-item" onclick="selectSupermarket('Puregold')">
+                <img src="{% static 'icons/puregold_horizontal.png' %}" alt="Puregold">
+            </li>
+            <li class="dropdown-item" onclick="selectSupermarket('ShopMetro')">
+                <img src="{% static 'icons/shopmetro_horizontal.png' %}" alt="ShopMetro">
+            </li>
+            <li class="dropdown-item" onclick="selectSupermarket('WalterMart')">
+                <img src="{% static 'icons/waltermart_horizontal.png' %}" alt="WalterMart">
+            </li>
+        </ul>
+    </div>-->
+
+
+  
+        <div class="container mb-30">
+            <div class="row">
+                <div class="col-lg-4-5">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product">
+                            
+                            <div class="sort-by-product-area" style="border: 1px solid #777; border-radius: 10px; ">
+                                
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li class="dropdown-item" onclick="selectSupermarket('Puregold')">
+                                        <img src="{% static 'icons/puregold_horizontal.png' %}" alt="Puregold">
+                                    </li>
+                                    <li class="dropdown-item" onclick="selectSupermarket('ShopMetro')">
+                                        <img src="{% static 'icons/shopmetro_horizontal.png' %}" alt="ShopMetro">
+                                    </li>
+                                    <li class="dropdown-item" onclick="selectSupermarket('WalterMart')">
+                                        <img src="{% static 'icons/waltermart_horizontal.png' %}" alt="WalterMart">
+                                    </li>
+                                </ul>
+                                
+                                <div>
+                                    <h5 class="ml-35">Showing products from:</h5>
+
+                                    <img src="{% static 'icons/supermarkets.png' %}" alt="Dropdown" class="dropdown-button" id="dropdownMenuButton">
+                                    <i class="fi-rs-angle-small-down"></i>
+                                </div>
+                            </div>
+                            
+                        
+                        </div>
+
+                        <div class="sort-by-product-area">
+                            <div class="sort-by-cover mr-10">
+                                <p>We found <strong class="text-brand"> {{ total_products }}</strong> items for you!</p>
+ 
+                            </div>
+                            <button class="btn btn-sm btn-default"  onclick="clearFilters()" ><i class="fi-rs-filter mr-5"></i> Clear Filter</button>
+
+                            <div class="sort-by-cover">
+                                <div class="sort-by-product-wrap">
+                                    <div class="sort-by">
+                                        <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                    </div>
+                                    <div class="sort-by-dropdown-wrap">
+                                        <span>  <i class="fi-rs-angle-small-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="sort-by-dropdown">
+                                    <ul>
+                                        <li><a class="{% if sort_option == 'default' %}active{% endif %}" href="?sort=default{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">Default</a></li>
+                                        <li><a class="{% if sort_option == 'price_low_to_high' %}active{% endif %}" href="?sort=price_low_to_high{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">Price: Low to High</a></li>
+                                        <li><a class="{% if sort_option == 'price_high_to_low' %}active{% endif %}" href="?sort=price_high_to_low{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">Price: High to Low</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+
+                    <div class="row product-grid">
+                        <h1>Products in {{ category_name }}</h1>
+
+                        {% for product in product_page %}
+                        <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        
+
+                        <div class="product-cart-wrap mb-30">
+                            <div class="product-img-action-wrap">
+                                <div class="product-img product-img-zoom">
+                                    <a href="{% url 'home:product_detail' product_id=product.id %}">
+                                        <img class="default-img" src="{{ product.image }}" alt="{{ product.title }}">
+                                    </a>
+                                </div>
+                                <div class="product-action-1">
+                                    <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                                    <a aria-label="Compare" class="action-btn" onclick="openCompareModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-shuffle"></i></a>
+                                    <a aria-label="Quick view" class="action-btn" onclick="openQuickViewModal('{{ product.id }}')" data-product-id="{{ product.id }}"><i class="fi-rs-eye"></i></a>
+                                </div>
+
+                                <!-- Compare modal -->
+                                <div id="compareModalContainer">
+                                </div>
+                                {% include 'supermarket/compare_modal.html' with product=product product_id=product.id %}
+
+                                 <!-- Quickview modal-->
+                                <div id="quickviewModalContainer">
+                                </div>
+                                {% include 'supermarket/quickview_modal.html' with product=product product_id=product.id %}
+
+
+
+                                {% if product.discounted_price %}
+                                <div class="product-badges product-badges-position product-badges-mrg">
+                                    <span class="sale">Sale</span>
+                                </div>
+                                {% endif %}
+        
+                            </div>
+                            <div class="product-content-wrap">
+                                <div class="product-category"> 
+                                    <a href="shop-grid-right.html">{{ category }}</a>
+                                </div>
+                                <h2><a href="{% url 'home:product_detail' product_id=product.id %}">{{ product.title }}</a></h2>
+                                <div class="product-rate-cover" style="display: flex; justify-content: space-between;">
+                                    <label class="fw-900 mt-15">
+                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_like.png' %}"> {{ product.like_count }}
+                                    </label>
+                                    <label class="fw-900 mt-15" style="align-self: flex-end;">
+                                        <img style="height: 20px; width: 20px;" src="{% static 'icons/icon_dislike.png' %}"> {{ product.dislike_count }}
+                                    </label>
+                                </div>
+                                <div class="product-rate-cover">
+                                    <label class="fw-900 mt-15" style="width: 90%">{{product.supermarket}}</label>
+                                </div>
+                                <div>
+                                    <span class="font-small text-muted">{{ product.weight }}</span>
+                                </div>
+                                <div class="product-card-bottom">
+                                    <div class="product-price">
+                                        {% if product.discounted_price %}
+                                            <span>{{ product.discounted_price }}</span>
+                                            {% if product.original_price %}
+                                                <span class="old-price">{{ product.original_price }}</span>
+                                            {% else %}
+                                                <span class="old-price"></span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span>{{ product.original_price }}</span>
+                                            <span class="old-price"></span>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="add-cart">
+                                        <a class="add" href="#"><i class="fi-rs-shopping-cart mr-5"></i>Add to Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+</div>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+               
+                    <!-- Product pagination -->
+                    <div class="pagination-area mt-20 mb-20">
+                        <nav aria-label="Page navigation example">
+                           <!-- Pagination links -->
+                            <ul class="pagination justify-content-start">
+                                {% if product_page.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">&laquo; </a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ product_page.previous_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}"> < </a></li>
+                                {% endif %}
+                                <li class="page-item active"><a class="page-link" href="?page={{ product_page.number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">{{ product_page.number }}</a></li>
+                                {% if product_page.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ product_page.next_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ product_page.paginator.num_pages }}{% if sort_option %}&sort={{ sort_option }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if selected_supermarket %}&supermarket={{ selected_supermarket }}{% endif %}">&raquo; </a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    
+
+                </div>
+                <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
+                    <div class="sidebar-widget widget-category-2 mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                        <ul>
+                            <li> <a href="{% url 'home:category' category_name='Canned Goods' %}"> <img src="{% static 'imgs/theme/icons/cannedfood.png' %}" alt="">Canned Goods</a><span class="count">{{ category_counts.Canned_Goods }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Milk' %}"> <img src="{% static 'imgs/theme/icons/milk.png' %}" alt="">Milk</a><span class="count">{{ category_counts.Milk }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Coffee' %}"> <img src="{% static 'imgs/theme/icons/coffee.png' %}" alt="">Coffee</a><span class="count">{{ category_counts.Coffee }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Bread' %}"> <img src="{% static 'imgs/theme/icons/bread.png' %}" alt="">Bread</a><span class="count">{{ category_counts.Bread }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Candle' %}"> <img src="{% static 'imgs/theme/icons/candles.png' %}" alt="">Candles</a><span class="count">{{ category_counts.Candle }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Water' %}"> <img src="{% static 'imgs/theme/icons/water.png' %}" alt="">Water/Mineral</a><span class="count">{{ category_counts.Water }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Vinegar' %}"> <img src="{% static 'imgs/theme/icons/vinegar.png' %}" alt="">Vinegar</a><span class="count">{{ category_counts.Vinegar }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Soy Sauce' %}"> <img src="{% static 'imgs/theme/icons/soysauce.png' %}" alt="">Soy Sauce</a><span class="count">{{ category_counts.Soy_Sauce }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Fish Sauce' %}"> <img src="{% static 'imgs/theme/icons/fishsauce.png' %}" alt="">Fish Sauce</a><span class="count">{{ category_counts.Fish_Sauce }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Noodles' %}"> <img src="{% static 'imgs/theme/icons/noodle.png' %}" alt="">Noodles</a><span class="count">{{ category_counts.Noodles }}</span></li>
+                            <li> <a href="{% url 'home:category' category_name='Laundry Aids' %}"> <img src="{% static 'imgs/theme/icons/laundry.png' %}" alt="">Laundry Aids</a><span class="count">{{ category_counts.Laundry_Aids }}</span></li>
+                          </ul>
+                    </div>
+                    <!-- Fillter By Price -->
+                    <div class="sidebar-widget price_range range mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Filter by price</h5>
+                        <form method="GET" action="">
+                            <label for="min-price">Minimum Price:</label>
+                            <input type="number" id="min-price" name="min_price" min="0" value="{{ min_price }}">
+                            <label for="max-price">Maximum Price:</label>
+                            <input type="number" id="max-price" name="max_price" value="{{ max_price }}">
+                            <!-- Include sort_option, selected_supermarket, min_price, and max_price in the form action -->
+                            <input type="hidden" name="sort" value="{{ sort_option }}">
+                            <input type="hidden" name="supermarket" value="{{ selected_supermarket }}">
+                            <button type="submit"  class="btn btn-sm btn-default" style="margin-top: 10px;"><i class="fi-rs-filter mr-5"></i>Filter</button>
+                        </form>
+                    </div>
+
+                    <div class="sidebar-widget mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Filter by Upvote and Downvote</h5>
+                        <form action="{% url 'home:category' category_name %}" method="get" >
+                        <div class=" sort-by-cover">
+
+                            <select name="sort">
+                                <option value="">Default Sorting</option>
+                                <option value="likes">Sort by Highest Likes</option>
+                                <option value="dislikes">Sort by Highest Dislikes</option>
+                            </select>
+                            <br><br>
+                            <button type="submit" class="btn btn-sm btn-default" style="margin-top: 10px;"><i class="fi-rs-filter mr-5"></i>Sort</button>
+                        </form>
+                    </div>
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+    </main>
+  
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <img src="assets/imgs/theme/loading.gif" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+{% endblock %}
